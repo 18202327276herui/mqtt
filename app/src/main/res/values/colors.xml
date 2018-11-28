@@ -1,6 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#00aaff</color>
+    <color name="colorPrimaryDark">#00aaff</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <!--<color name="colorAccent">#5BCC5D</color>-->
+    <color name="colorAccent">#00aaff</color>
+    <color name="colorControlHighlight">#00aaff</color>
+    <color name="colorButtonNormal">#00aaff</color>
+
+
+    <!-- app 主色调：用于状态栏亚瑟、按钮、强调文字 -->
+    <!-- 主题色 -->
+    <color name="color_theme">#00aaff</color>
+    <color name="textColor">#00aaff</color>
+    <color name="blue">#00B2EE</color>
+    <color name="deep_blue">#3385ff</color>
+    <color name="light_blue">#87CEFA</color>
+    <color name="white">#FFF</color>
+    <color name="red">#FF3030</color>
+    <color name="green">#66CC00</color>
+    <color name="grey">#373737</color>
+    <color name="deepnlue">#00AAFF</color>
+    <!-- 一些标题颜色 -->
+    <color name="color_title">#00aadd</color>
+    <color name="text_color">#373737</color>
+
+
+    <!-- 背景色 -->
+    <color name="color_background">#f2f2f2</color>
+    <!-- 分割线颜色 -->
+    <color name="color_split_line">#ebebeb</color>
+    <!-- 灰色文字颜色 -->
+    <color name="color_grey_text">#373737</color>
+    <!-- 确定按钮、统计图颜色 -->
+    <color name="color_btn_ok">#1fc124</color>
+    <!-- 取消按钮、警示文字颜色 -->
+    <color name="color_btn_cancel">#ff4c4c</color>
+    <!-- 黑色 -->
+    <color name="black">#ff000000</color>
+    <!-- 灰色提示文字颜色 -->
+    <color name="color_grey_text_hint">#c7c7c7</color>
+
+    <!-- 灰黑色 -->
+    <color name="gray_black">#1A1A1A</color>
+
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+    <!-- 半透明 -->
+    <color name="translucent">#b0000000</color>
+    <!--60%透明黑-->
+    <color name="alpha_black_less">#66000000</color>
+    <!-- 80%透明黑 -->
+    <color name="alpha_black">#33000000</color>
+    <!-- 90%透明黑 -->
+    <color name="alpha_black_more">#19000000</color>
+    <!--50%透明黑-->
+    <color name="alpha_black_50">#99000000</color>
+    <!--70%透明黑-->
+    <color name="alpha_black_70">#4c000000</color>
+
+    <!--浅绿色-->
+    <color name="green_light">#E4F1E4</color>
+    <!--浅灰色-->
+    <color name="grey_light">#E8E8E8</color>
+    <!-- 浅灰色（背景色） -->
+    <color name="light_grey">#f2f2f2</color>
+    <!-- 中灰色 -->
+    <color name="mid_grey">#373737</color>
+    <!-- 深灰色 -->
+    <color name="deep_grey">#373737</color>
+    <!--字体中浅灰颜色-->
+    <color name="color_light_grey_text">#373737</color>
+    <!--按钮背景灰色-->
+    <color name="grey_button_bg">#EFF1F7</color>
+    <!--遮罩层颜色-->
+    <color name="shade_color">#FF616161</color>
+    <!--驾驶员任务字体颜色_浅灰-->
+    <color name="text_light_grey">#373737</color>
+    <!--驾驶员任务分割线_浅灰-->
+    <color name="deliver_light_grey">#DDDDDD</color>
+    <!--出入库通知灰色字体颜色-->
+    <color name="out_and_in_text_grey">#373737</color>
+    <!--车辆确认驾驶员颜色-->
+    <color name="car_comfirm_driver_origin">#61C005</color>
+
+
+    <!--字体低浅灰颜色-->
+    <color name="color_little_grey_text">#373737</color>
+
+    <color name="uncompleted_color">#A3E0D9</color>
+    <color name="uncompleted_text_color">#F8F8F8</color>
+
+    <!--运输节点的颜色-->
+    <color name="transport_node_green">#37C977</color>
+    <color name="transport_node_red">#FF5777</color>
+
+    <!-- 分析 -->
+    <!--画笔（轴线上的文本画笔颜色）-->
+    <color name="xylinecolor">#999</color>
+    <!--画笔 （轴线画笔颜色）-->
+    <!-- 一些标签标签的浅蓝色背景 -->
+    <color name="blue_bg_tag">#cceeff</color>
+    <!-- 时间轴线灰色 -->
+    <color name="grey_step_line">#b3b3b3</color>
+    <color name="xytextcolor">#999</color>
+    <!--画笔（坐标系中的画笔1 颜色）-->
+    <color name="paint1color">#4F81BD</color>
+    <!--画笔（坐标系中的画笔2 颜色）-->
+    <color name="paint2color">#C0504D</color>
+    <color name="yellow">#FFFF37</color>
+    <color name="gridviewcolor">#CBCBCB</color>
+    <color name="guiji">#434195</color>
+    <!-- 辅助色，主要用于按钮和一些提示文字 -->
+    <color name="color_support">#00aaff</color>
 </resources>

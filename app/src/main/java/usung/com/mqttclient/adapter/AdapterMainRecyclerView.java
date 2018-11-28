@@ -1,0 +1,44 @@
+package usung.com.mqttclient.adapter;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import butterknife.ButterKnife;
+import usung.com.mqttclient.R;
+
+/**
+ * 主界面适配器
+ * @author herui
+ * @date 2018/11/28
+ */
+
+public class AdapterMainRecyclerView extends RecyclerView.Adapter<AdapterMainRecyclerView.ViewHolder> {
+    private Context context;
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewHolder holder = new ViewHolder(LayoutInflater.from(context).inflate(R.layout.activity_main, parent, false));
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+}

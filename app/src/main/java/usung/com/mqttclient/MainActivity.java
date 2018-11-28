@@ -1,13 +1,40 @@
 package usung.com.mqttclient;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
+import usung.com.mqttclient.base.BaseActivity;
+
+/** 主界面
+ * @author herui
+ * @date 2018/11/28
+ */
+public class MainActivity extends BaseActivity {
+    @BindView(R.id.rv_list)
+    RecyclerView rvList;
+    private AdapterMainRecyclerView adapterMainRceyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 绑定
+        ButterKnife.bind(this);
+
+        initViews();
+    }
+
+    @Override
+    public void initViews() {
+        adapterMainRceyclerView = new AdapterMainRecyclerView();
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvList.setLayoutManager(manager);
+        rvList.setAdapter(adapterMainRceyclerView);
     }
 }
