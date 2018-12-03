@@ -422,15 +422,15 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <!-- actionbar返回按钮 -->
-    <!--<style name="actionbar_back">-->
-        <!--<item name="android:layout_width">wrap_content</item>-->
-        <!--<item name="android:layout_height">wrap_content</item>-->
-        <!--<item name="android:layout_centerVertical">true</item>-->
-        <!--<item name="android:paddingTop">14dp</item>-->
-        <!--<item name="android:paddingBottom">14dp</item>-->
-        <!--<item name="android:src">@drawable/btn_back_selector</item>-->
-    <!--</style>-->
+     actionbar返回按钮
+    <style name="actionbar_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:src">@drawable/btn_back_selector</item>
+    </style>
 
     <!-- 自定义仿IOS的AlertDialog的样式 -->
     <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">

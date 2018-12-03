@@ -1,8 +1,12 @@
 package usung.com.mqttclient;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +35,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        adapterMainRceyclerView = new AdapterMainRecyclerView();
+        adapterMainRceyclerView = new AdapterMainRecyclerView(getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvList.setLayoutManager(manager);
+        rvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvList.setAdapter(adapterMainRceyclerView);
+
+        adapterMainRceyclerView.setListener(new AdapterMainRecyclerView.onItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                startActivity(new Intent(getActivity(), ActivityChat.class));
+            }
+        });
     }
 }
