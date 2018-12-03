@@ -8,19 +8,31 @@
 
     <include layout="@layout/page_header" />
 
-    <ListView
-        android:id="@+id/lv_listview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_listview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1">
-    </ListView>
+        app:layout_constraintTop_toBottomOf="@id/page_top"
+        android:layout_height="wrap_content" />
 
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionSend"
-        android:inputType="textMultiLine"
-        android:singleLine="false"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSend"
+            android:inputType="textMultiLine"
+            android:singleLine="false" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="send" />
+
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
