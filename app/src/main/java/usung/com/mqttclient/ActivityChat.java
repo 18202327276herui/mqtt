@@ -26,6 +26,6 @@ public class ActivityChat extends BaseActivity {
     @Override
     public void initViews(){
         super.initViews();
-        headerTitle.setText("Android开发交流");
+        headerTitle.setText("Android开发交流 ");
     }
 }
