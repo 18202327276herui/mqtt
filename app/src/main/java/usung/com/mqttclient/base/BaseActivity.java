@@ -161,13 +161,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onBackPressed() {
-//        if (getSwipeHelper() != null) {
-////            getSwipeHelper().onError();
-//        }
-//        super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+////        if (getSwipeHelper() != null) {
+//////            getSwipeHelper().onError();
+////        }
+////        super.onBackPressed();
+//    }
 
     /**
      * 当listview为空时，进行页面展示处理
