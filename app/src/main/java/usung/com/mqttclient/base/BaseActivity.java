@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.Unbinder;
+import usung.com.mqttclient.R;
 
 /**
  * Descriptions:
@@ -83,7 +84,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     // 初始化页面view
     protected void initViews() {
         // listView为空的视图
-//        backButton = findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
 //        rightButton = findViewById(R.id.rightButton);
 //        left_rightButton = findViewById(R.id.left_rightButton);
         if (null != backButton) {
@@ -100,19 +101,19 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.backButton:
-//                onBackPressed();
-//                break;
+        switch (v.getId()) {
+            case R.id.backButton:
+                onBackPressed();
+                break;
 //            case R.id.emptyView:
 ////                loadList();
 //                break;
 //            case R.id.tv_empty:
 ////                loadList();
 //                break;
-//            default:
-//                break;
-//        }
+            default:
+                break;
+        }
     }
 
     /**

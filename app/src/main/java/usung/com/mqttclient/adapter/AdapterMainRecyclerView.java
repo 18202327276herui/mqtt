@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import usung.com.mqttclient.R;
@@ -21,9 +24,11 @@ import usung.com.mqttclient.R;
 public class AdapterMainRecyclerView extends RecyclerView.Adapter<AdapterMainRecyclerView.ViewHolder> {
     private onItemClickListener listener;
     private Context context;
+    private List<String> dataLists = new ArrayList<>();
 
-    public AdapterMainRecyclerView(Context context) {
+    public AdapterMainRecyclerView(Context context, List<String> dataLists) {
         this.context = context;
+        this.dataLists = dataLists;
     }
 
     public void setListener(onItemClickListener listener) {
