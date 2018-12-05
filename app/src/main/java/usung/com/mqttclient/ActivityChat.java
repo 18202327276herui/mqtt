@@ -23,8 +23,18 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.SecureRandom;
+import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +42,7 @@ import butterknife.OnClick;
 import usung.com.mqttclient.adapter.AdapterChatRecyclerView;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.base.BaseActivity;
+import usung.com.mqttclient.base.BaseApplication;
 
 /**
  * @author herui
@@ -49,10 +60,11 @@ public class ActivityChat extends BaseActivity {
     private List<String> messageLists = new ArrayList<>();
 
     /**
-     *  mqtt 相关
+     * mqtt 相关
      */
     MqttAndroidClient mqttAndroidClient;
-    final String serverUri = "tcp://iot.eclipse.org:1883";
+    //    final String serverUri = "tcp://iot.eclipse.org:1883";
+    final String serverUri = "http://192.168.0.61:10336";
     String clientId = "369";
     final String subscriptionTopic = "369";
     final String publishTopic = "369";
@@ -127,13 +139,15 @@ public class ActivityChat extends BaseActivity {
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-
             }
         });
 
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
+        mqttConnectOptions.setSocketFactory(getSSLSocketFactory());
+//        mqttConnectOptions.setUserName("001");
+//        mqttConnectOptions.setPassword("001".toCharArray());
 
         try {
             addToHistory("Connecting to " + serverUri);
@@ -167,6 +181,9 @@ public class ActivityChat extends BaseActivity {
                 .setAction("Action", null).show();
     }
 
+    /**
+     * 订阅主题
+     */
     public void subscribeToTopic() {
         try {
             mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
@@ -200,6 +217,9 @@ public class ActivityChat extends BaseActivity {
         }
     }
 
+    /**
+     * 发送消息
+     */
     public void publishMessage() {
         try {
             MqttMessage message = new MqttMessage();
@@ -213,5 +233,42 @@ public class ActivityChat extends BaseActivity {
             System.err.println("Error Publishing: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public SSLSocketFactory getSSLSocketFactory() {
+        SSLContext sslContext = null;
+        try {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keyStore.load(null);
+            String certificateAlias = Integer.toString(0);
+            //拷贝好的证书
+            keyStore.setCertificateEntry(certificateAlias, certificateFactory.generateCertificate(BaseApplication.getInstance().getResources().getAssets().open("cacert.crt")));
+            sslContext = SSLContext.getInstance("TLSv1");
+            final TrustManagerFactory trustManagerFactory =
+                    TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            sslContext.init
+                    (
+                            null,
+                            trustManagerFactory.getTrustManagers(),
+                            new SecureRandom()
+                    );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+//        new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sslSocketFactory.createSocket(serverUri, 8883);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+        return sslSocketFactory;
     }
 }
