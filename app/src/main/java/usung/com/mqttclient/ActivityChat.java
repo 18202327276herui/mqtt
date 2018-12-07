@@ -23,10 +23,13 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +67,7 @@ public class ActivityChat extends BaseActivity {
      */
     MqttAndroidClient mqttAndroidClient;
     //    final String serverUri = "tcp://iot.eclipse.org:1883";
-    final String serverUri = "http://192.168.0.61:10336";
+    final String serverUri = "ssl://192.168.0.61:8883";
     String clientId = "369";
     final String subscriptionTopic = "369";
     final String publishTopic = "369";
@@ -112,7 +115,7 @@ public class ActivityChat extends BaseActivity {
      * 初始化mqtt
      */
     public void initMqtt() {
-        clientId = clientId + System.currentTimeMillis();
+//        clientId = clientId + System.currentTimeMillis();
 
         mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), serverUri, clientId);
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
@@ -144,7 +147,7 @@ public class ActivityChat extends BaseActivity {
 
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setCleanSession(false);
+        mqttConnectOptions.setCleanSession(true);
         mqttConnectOptions.setSocketFactory(getSSLSocketFactory());
 //        mqttConnectOptions.setUserName("001");
 //        mqttConnectOptions.setPassword("001".toCharArray());
@@ -168,7 +171,6 @@ public class ActivityChat extends BaseActivity {
                     addToHistory("Failed to connect to: " + serverUri);
                 }
             });
-
 
         } catch (MqttException ex) {
             ex.printStackTrace();
@@ -235,6 +237,10 @@ public class ActivityChat extends BaseActivity {
         }
     }
 
+    /**
+     *  获取SSLSocketFactory
+     * @return
+     */
     public SSLSocketFactory getSSLSocketFactory() {
         SSLContext sslContext = null;
         try {
@@ -259,16 +265,7 @@ public class ActivityChat extends BaseActivity {
         }
 
         final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-//        new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    sslSocketFactory.createSocket(serverUri, 8883);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
         return sslSocketFactory;
     }
+
 }
