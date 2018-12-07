@@ -2,33 +2,23 @@ package usung.com.mqttclient;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-
-import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.base.BaseActivity;
 
-/** 主界面
+/**
+ * 主界面
+ *
  * @author herui
  * @date 2018/11/28
  */
@@ -64,5 +54,19 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(getActivity(), ActivityChat.class));
             }
         });
+    }
+
+    @OnClick({R.id.rl_home, R.id.rl_message, R.id.rl_my})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rl_home:
+                break;
+            case R.id.rl_message:
+                break;
+            case R.id.rl_my:
+                break;
+            default:
+                break;
+        }
     }
 }
