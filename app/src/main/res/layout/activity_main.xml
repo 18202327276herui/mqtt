@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context="usung.com.mqttclient.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_list"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"/>
 
     <LinearLayout
         android:id="@+id/bottom_tab"
