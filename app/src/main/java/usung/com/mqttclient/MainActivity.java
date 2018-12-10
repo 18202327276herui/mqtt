@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.adapter.PagerAdapter;
 import usung.com.mqttclient.base.BaseActivity;
+import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.fragment.FragmentHome;
 import usung.com.mqttclient.fragment.FragmentMessage;
 import usung.com.mqttclient.fragment.FragmentMy;
@@ -42,6 +43,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @BindView(R.id.vp_view_pager)
     ViewPager vpViewPager;
     private AdapterMainRecyclerView adapterMainRceyclerView;
+    private MqttHelper mqttHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ButterKnife.bind(this);
         initViews();
         initFragment();
+        mqttHelper = new MqttHelper(getActivity());
     }
 
     @Override
@@ -88,6 +91,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             default:
                 break;
         }
+        mqttHelper.publishMessage();
     }
 
     /**
