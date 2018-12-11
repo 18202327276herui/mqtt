@@ -43,7 +43,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @BindView(R.id.vp_view_pager)
     ViewPager vpViewPager;
     private AdapterMainRecyclerView adapterMainRceyclerView;
-    private MqttHelper mqttHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ButterKnife.bind(this);
         initViews();
         initFragment();
-        mqttHelper = new MqttHelper(getActivity());
+        MqttHelper.getInstance(getActivity());
     }
 
     @Override
@@ -91,7 +90,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             default:
                 break;
         }
-        mqttHelper.publishMessage();
     }
 
     /**

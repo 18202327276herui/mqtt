@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import usung.com.mqttclient.adapter.AdapterChatRecyclerView;
 import usung.com.mqttclient.base.BaseActivity;
+import usung.com.mqttclient.base.MqttHelper;
 
 /**
  * @author herui
@@ -40,6 +41,7 @@ public class ActivityChat extends BaseActivity {
         ButterKnife.bind(this);
 
         initViews();
+        MqttHelper.getInstance(getActivity());
     }
 
     @Override

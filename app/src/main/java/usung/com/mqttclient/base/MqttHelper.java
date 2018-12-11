@@ -31,6 +31,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 public class MqttHelper {
     private Context context;
+    private static MqttHelper instance;
     /**
      * mqtt 相关
      */
@@ -45,6 +46,17 @@ public class MqttHelper {
     public MqttHelper(Context context) {
         this.context = context;
         initMqtt();
+    }
+
+    public static MqttHelper getInstance(Context context) {
+        if (instance == null) {
+            synchronized (MqttHelper.class) {
+                if (instance == null) {
+                    instance = new MqttHelper(context);
+                }
+            }
+        }
+        return instance;
     }
 
     public MqttAndroidClient getMqttAndroidClient() {
@@ -206,5 +218,14 @@ public class MqttHelper {
 
         final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
         return sslSocketFactory;
+    }
+
+    /**
+     * 销毁context引用
+     */
+    public static void destroy(Context context) {
+        if (instance != null && context == instance.context) {
+            instance.context = null;
+        }
     }
 }
