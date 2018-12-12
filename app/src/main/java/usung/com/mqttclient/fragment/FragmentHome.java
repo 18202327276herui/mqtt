@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,11 @@ import usung.com.mqttclient.base.BaseFragment;
 public class FragmentHome extends BaseFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
+    @BindView(R.id.header_title)
+    TextView headerTitle;
+    @BindView(R.id.backButton)
+    RelativeLayout backButtonView;
+
     private AdapterMainRecyclerView adapterMainRceyclerView;
 
     public static FragmentHome newInstance(Bundle bundle) {
@@ -50,6 +57,9 @@ public class FragmentHome extends BaseFragment {
 
     @Override
     protected void initViews() {
+        headerTitle.setText("首页");
+        backButtonView.setVisibility(View.GONE);
+
         List<String> dataLists = new ArrayList<>();
         dataLists.add("123");
         dataLists.add("456");

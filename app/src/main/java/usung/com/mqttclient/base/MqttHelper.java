@@ -131,7 +131,7 @@ public class MqttHelper {
 
     public void addToHistory(String mainText) {
         Log.e("test", mainText);
-        Snackbar.make(((Activity)context).findViewById(android.R.id.content), mainText, Snackbar.LENGTH_LONG)
+        Snackbar.make(((Activity) context).findViewById(android.R.id.content), mainText, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
@@ -157,11 +157,6 @@ public class MqttHelper {
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     // message Arrived!
                     Log.e("mqtt messageArrived", "Message: " + topic + " : " + new String(message.getPayload()));
-//                    addToHistory("Message Arreved: " + topic + " : " + new String(message.getPayload()));
-//                    Toast.makeText(context, new String(message.getPayload()), Toast.LENGTH_SHORT).show();
-//                    messageLists.add("Message Arreved: " + topic + " : " + new String(message.getPayload()));
-//                    adapterChatRceyclerView.notifyDataSetChanged();
-//                    mRecyclerView.smoothScrollToPosition(messageLists.size());
                 }
             });
 
@@ -190,7 +185,8 @@ public class MqttHelper {
     }
 
     /**
-     *  获取SSLSocketFactory
+     * 获取SSLSocketFactory
+     *
      * @return
      */
     public SSLSocketFactory getSSLSocketFactory() {
