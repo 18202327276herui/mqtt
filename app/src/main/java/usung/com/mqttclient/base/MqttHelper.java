@@ -156,7 +156,7 @@ public class MqttHelper {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     // message Arrived!
-                    Log.e("test", "Message: " + topic + " : " + new String(message.getPayload()));
+                    Log.e("mqtt messageArrived", "Message: " + topic + " : " + new String(message.getPayload()));
 //                    addToHistory("Message Arreved: " + topic + " : " + new String(message.getPayload()));
 //                    Toast.makeText(context, new String(message.getPayload()), Toast.LENGTH_SHORT).show();
 //                    messageLists.add("Message Arreved: " + topic + " : " + new String(message.getPayload()));
@@ -174,7 +174,7 @@ public class MqttHelper {
     /**
      * 发送消息
      */
-    public void publishMessage() {
+    public void publishMessage(String publishMessage) {
         try {
             MqttMessage message = new MqttMessage();
             message.setPayload(publishMessage.getBytes());
