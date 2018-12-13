@@ -1,0 +1,107 @@
+package usung.com.mqttclient.http.observers;
+
+import android.app.Activity;
+import android.content.Context;
+
+import java.lang.ref.WeakReference;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import usung.com.mqttclient.http.base.BaseResult;
+import usung.com.mqttclient.widget.LoadingDialog;
+
+public abstract class CommonObserver<R> implements Observer<BaseResult<R>> {
+    private WeakReference<Context> context;
+    private boolean showLoadingDialog;
+    private String loadingMsg;
+
+    public CommonObserver(Context context) {
+        this(context, false);
+    }
+
+    public CommonObserver(Context context, boolean showLoadingDialog) {
+        this(context, showLoadingDialog, "");
+    }
+
+    public CommonObserver(Context context, boolean showLoadingDialog, String loadingMsg) {
+        this.context = new WeakReference<>(context);
+        this.showLoadingDialog = showLoadingDialog;
+        this.loadingMsg = loadingMsg;
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        if (showLoadingDialog) {
+            LoadingDialog.getInstance(context.get()).show(loadingMsg);
+        }
+    }
+
+    @Override
+    public void onNext(BaseResult<R> t) {
+        if (context.get() == null || context.get() instanceof Activity && ((Activity) context.get()).isFinishing()) {
+            return;
+        }
+        if (t.getError() == 0) {
+            onSuccess(t.getItems(), t.getMsg(), t.getError(), t.getTotal());
+        }/*else if (t.getError()==401){
+
+        }*/ else {
+            onFailure(t.getMsg(), t.getError(), t.getTotal());
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        if (context.get() == null || context.get() instanceof Activity && ((Activity) context.get()).isFinishing()) {
+            return;
+        }
+        /**
+         *  转圈消失
+         */
+        LoadingDialog.getInstance(context.get()).dismiss();
+        String msg = "";
+        /**
+         *  如果是超时
+         */
+        /*if (e instanceof SocketTimeoutException) {
+            msg = context.get().getString(com.usung.gxzy_logistics.R.string.http_failure_cause_time_out);
+        } else if (e instanceof HttpException) {
+            if (((HttpException) e).code() == 504) {
+                msg = context.get().getString(com.usung.gxzy_logistics.R.string.http_failure_cause_network);
+            } else {
+                msg = context.get().getString(com.usung.gxzy_logistics.R.string.http_exception_cause_network);
+            }
+        } else {
+            msg = context.get().getString(com.usung.gxzy_logistics.R.string.http_exception_cause_network);
+        }*/
+        /**
+         *  弹出提示框
+         */
+        /*AlertDialog.getInstance(context.get()).setMsg(msg);
+        if (AlertDialog.getInstance(context.get()).isShowing()) {
+            AlertDialog.getInstance(context.get()).dismiss();
+        }
+        AlertDialog.getInstance(context.get()).show();*/
+//        if (showLoadingDialog) {
+//            LoadingDialog.getInstance(context.get()).dismiss();
+//        }
+//        String msg;
+//        if (!NetWorkUtil.isNetConnected(BaseApplication.getInstance())) {
+//            msg = context.get().getString(com.usung.gxzy_logistics.R.string.http_failure_cause_network);
+//        } else {
+//            msg = e.getMessage();
+//        }
+//        onFailure(msg, 404, 0);
+    }
+
+    @Override
+    public void onComplete() {
+        if (showLoadingDialog) {
+            LoadingDialog.getInstance(context.get()).dismiss();
+        }
+    }
+
+    public abstract void onSuccess(R r, String msg, int error, int total);
+
+    public abstract void onFailure(String msg, int error, int total);
+}

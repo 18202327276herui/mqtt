@@ -11,6 +11,7 @@ public class BaseApplication extends Application {
 
     public static final String TAG = "BaseApplication";
     private static BaseApplication instance;
+    private String SERVER_URL = APPConstants.SERVER_URL;
 
     /*********************
      * 设置全局的app的密码和用户名start
@@ -35,6 +36,13 @@ public class BaseApplication extends Application {
         return instance;
     }
 
+    public String getSERVER_URL() {
+        return SERVER_URL;
+    }
+
+    public void setSERVER_URL(String SERVER_URL) {
+        this.SERVER_URL = SERVER_URL;
+    }
 
     //杀进程
     @Override

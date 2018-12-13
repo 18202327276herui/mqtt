@@ -23,6 +23,10 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 repositories {
@@ -37,6 +41,24 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //RxJava2.0所需依赖
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    // Rxandroid2.0线程调度依赖
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // 大神写的这个库可以支持到rxjava2.X
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    //Retrofit2.0所需依赖
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    //结果转为实体类所需依赖
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0' //RxJava2.0+Retrofit2.0适配依赖
+    //Http3.0依赖
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    //Http优化策略依赖
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    //结果转为基本类型所需依赖
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
 
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

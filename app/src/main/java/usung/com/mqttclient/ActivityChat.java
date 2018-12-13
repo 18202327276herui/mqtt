@@ -24,11 +24,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import usung.com.mqttclient.adapter.AdapterChatRecyclerView;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
+import usung.com.mqttclient.bean.user.LoginParameter;
+import usung.com.mqttclient.bean.user.LoginResultData;
+import usung.com.mqttclient.http.base.Api;
+import usung.com.mqttclient.http.base.BaseResult;
+import usung.com.mqttclient.http.observers.CommonObserver;
+import usung.com.mqttclient.http.observers.NormalObserver;
 
 /**
  * @author herui
@@ -76,6 +84,24 @@ public class ActivityChat extends BaseActivity {
         mqttHelper = MqttHelper.getInstance(getActivity());
         mqttAndroidClient = mqttHelper.getMqttAndroidClient();
         initViews();
+
+        LoginParameter loginParameter = new LoginParameter();
+        loginParameter.setUserId("001");
+        loginParameter.setPassWord("001");
+        Api.getApiService().login(loginParameter)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<LoginResultData>(getActivity()) {
+                    @Override
+                    public void onSuccess(LoginResultData loginResultData, String msg, int error, int total) {
+                        Log.e("test", "000");
+                    }
+
+                    @Override
+                    public void onFailure(String msg, int error, int total) {
+
+                    }
+                });
     }
 
     @Override

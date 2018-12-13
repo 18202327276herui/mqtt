@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">mqttClient</string>
 
+    <string name="desc" />
+
     <string name="home">首页</string>
     <string name="message">消息</string>
     <string name="my">我的</string>
     <string name="ok">确定</string>
+
+    <string name="http_failure_cause_network">请求失败，请检查网络连接</string>
+    <string name="http_exception_cause_network">服务器出错</string>
+    <string name="http_failure_cause_time_out">网络请求超时，请检查网络</string>
+    <string name="http_failure">请求失败，请检查网络或稍后重试</string>
 </resources>
