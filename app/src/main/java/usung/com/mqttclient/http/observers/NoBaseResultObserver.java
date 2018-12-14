@@ -12,20 +12,20 @@ import io.reactivex.disposables.Disposable;
 import usung.com.mqttclient.http.base.BaseResult;
 import usung.com.mqttclient.widget.LoadingDialog;
 
-public abstract class CommonObserver<R> implements Observer<BaseResult<R>> {
+public abstract class NoBaseResultObserver<R> implements Observer<R> {
     private WeakReference<Context> context;
     private boolean showLoadingDialog;
     private String loadingMsg;
 
-    public CommonObserver(Context context) {
+    public NoBaseResultObserver(Context context) {
         this(context, false);
     }
 
-    public CommonObserver(Context context, boolean showLoadingDialog) {
+    public NoBaseResultObserver(Context context, boolean showLoadingDialog) {
         this(context, showLoadingDialog, "");
     }
 
-    public CommonObserver(Context context, boolean showLoadingDialog, String loadingMsg) {
+    public NoBaseResultObserver(Context context, boolean showLoadingDialog, String loadingMsg) {
         this.context = new WeakReference<>(context);
         this.showLoadingDialog = showLoadingDialog;
         this.loadingMsg = loadingMsg;
@@ -40,17 +40,11 @@ public abstract class CommonObserver<R> implements Observer<BaseResult<R>> {
     }
 
     @Override
-    public void onNext(BaseResult<R> t) {
+    public void onNext(R t) {
         if (context.get() == null || context.get() instanceof Activity && ((Activity) context.get()).isFinishing()) {
             return;
         }
-        if (t.getError() == 0) {
-            onSuccess(t.getItems(), t.getMsg(), t.getError(), t.getTotal());
-        }/*else if (t.getError()==401){
-
-        }*/ else {
-            onFailure(t.getMsg(), t.getError(), t.getTotal());
-        }
+        onResponse(t);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -106,7 +100,9 @@ public abstract class CommonObserver<R> implements Observer<BaseResult<R>> {
         }
     }
 
-    public abstract void onSuccess(R r, String msg, int error, int total);
-
-    public abstract void onFailure(String msg, int error, int total);
+    /**
+     *  返回的结果
+     * @param r  返回的结果类
+     */
+    public abstract void onResponse(R r);
 }

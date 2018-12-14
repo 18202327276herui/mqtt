@@ -35,9 +35,12 @@ import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.user.LoginParameter;
 import usung.com.mqttclient.bean.user.LoginResultData;
+import usung.com.mqttclient.bean.user.RegistResultData;
+import usung.com.mqttclient.bean.user.RegisteParameter;
 import usung.com.mqttclient.http.base.Api;
 import usung.com.mqttclient.http.base.BaseResult;
 import usung.com.mqttclient.http.observers.CommonObserver;
+import usung.com.mqttclient.http.observers.NoBaseResultObserver;
 import usung.com.mqttclient.http.observers.NormalObserver;
 
 /**
@@ -93,18 +96,31 @@ public class ActivityChat extends BaseActivity {
         Api.getApiService().login(loginParameter)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CommonObserver<LoginResultData>(getActivity()) {
+                .subscribe(new NoBaseResultObserver<LoginResultData>(getActivity()) {
                     @Override
-                    public void onSuccess(LoginResultData loginResultData, String msg, int error, int total) {
+                    public void onResponse(LoginResultData loginResultData) {
                         Log.e("test", "000");
-
-                    }
-
-                    @Override
-                    public void onFailure(String msg, int error, int total) {
-
                     }
                 });
+//        RegisteParameter registeParameter = new RegisteParameter();
+//        registeParameter.setUserId("001");
+//        registeParameter.setNickName("test");
+//        registeParameter.setFirstPassWords("001");
+//        Api.getApiService().registe(registeParameter)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new CommonObserver<RegistResultData>(getActivity()) {
+//                    @Override
+//                    public void onSuccess(RegistResultData registResultData, String msg, int error, int total) {
+//                        Log.e("test", "000");
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String msg, int error, int total) {
+//
+//                    }
+//                });
     }
 
     @Override

@@ -26,6 +26,8 @@ public class LoginParameter implements Serializable {
     /// </summary>
     public String RelatedSessionId;
 
+    public DeviceType DeviceType;
+
     public String getUserId() {
         return UserId;
     }
@@ -56,5 +58,13 @@ public class LoginParameter implements Serializable {
 
     public void setRelatedSessionId(String relatedSessionId) {
         RelatedSessionId = relatedSessionId;
+    }
+
+    public usung.com.mqttclient.bean.user.DeviceType getDeviceType() {
+        return DeviceType;
+    }
+
+    public void setDeviceType(usung.com.mqttclient.bean.user.DeviceType deviceType) {
+        DeviceType = deviceType;
     }
 }

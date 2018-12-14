@@ -31,7 +31,7 @@ public class MqttLoginCredential implements Serializable {
     /// <summary>
     /// ssl 证书
     /// </summary>
-    public byte[] Certification;
+    public String Certification;
 
     public String getClientId() {
         return ClientId;
@@ -73,11 +73,11 @@ public class MqttLoginCredential implements Serializable {
         SslPort = sslPort;
     }
 
-    public byte[] getCertification() {
+    public String getCertification() {
         return Certification;
     }
 
-    public void setCertification(byte[] certification) {
+    public void setCertification(String certification) {
         Certification = certification;
     }
 }
