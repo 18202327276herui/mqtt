@@ -1,5 +1,7 @@
 package usung.com.mqttclient.bean.user;
 
+import java.io.Serializable;
+
 import usung.com.mqttclient.bean.HttpResposeDataBase;
 
 /**
@@ -8,7 +10,7 @@ import usung.com.mqttclient.bean.HttpResposeDataBase;
  * @date 2018/12/13
  */
 
-public class LoginResultData extends HttpResposeDataBase {
+public class LoginResultData extends HttpResposeDataBase implements Serializable {
     /// <summary>
     /// 登录结果
     /// </summary>

@@ -1,5 +1,7 @@
 package usung.com.mqttclient.bean.user;
 
+import java.io.Serializable;
+
 /**
  * @author herui
  * @date 2018/12/13
@@ -8,7 +10,7 @@ package usung.com.mqttclient.bean.user;
  * Bucket = "usung-chat-test"
  */
 
-public class OssLoginCredencial {
+public class OssLoginCredencial implements Serializable {
     /// <summary>
     /// 用户名
     /// </summary>

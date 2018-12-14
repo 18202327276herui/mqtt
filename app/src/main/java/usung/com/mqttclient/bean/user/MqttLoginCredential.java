@@ -1,11 +1,13 @@
 package usung.com.mqttclient.bean.user;
 
+import java.io.Serializable;
+
 /**
  * @author herui
  * @date 2018/12/13
  */
 
-public class MqttLoginCredential {
+public class MqttLoginCredential implements Serializable {
     /// <summary>
     /// mqtt 连接的客户端id
     /// </summary>
