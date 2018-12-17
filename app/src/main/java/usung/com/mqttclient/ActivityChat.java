@@ -85,18 +85,6 @@ public class ActivityChat extends BaseActivity {
         mqttAndroidClient = mqttHelper.getMqttAndroidClient();
         initViews();
 
-        LoginParameter loginParameter = new LoginParameter();
-        loginParameter.setUserId("001");
-        loginParameter.setPassWord("001");
-        Api.getApiService().login(loginParameter)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NoBaseResultObserver<LoginResultData>(getActivity()) {
-                    @Override
-                    public void onResponse(LoginResultData loginResultData) {
-                        Log.e("test", "000");
-                    }
-                });
 //        RegisteParameter registeParameter = new RegisteParameter();
 //        registeParameter.setUserId("001");
 //        registeParameter.setNickName("test");

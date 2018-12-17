@@ -1,7 +1,9 @@
 package usung.com.mqttclient.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import java.util.List;
 
 import butterknife.Unbinder;
 import usung.com.mqttclient.R;
+import usung.com.mqttclient.widget.LoadingDialog;
 
 /**
  * Descriptions:
@@ -257,17 +260,20 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 //        AlertDialog.destroy(this);
     }
 
-//    public void showLoading(String msg) {
-//        LoadingDialog.getInstance(this).show(msg);
-//    }
-//
-//    public void showLoading(int resId) {
-//        LoadingDialog.getInstance(this).show(resId);
-//    }
-//
-//    public void dismissLoading() {
-//        LoadingDialog.getInstance(this).dismiss();
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void showLoading(String msg) {
+        LoadingDialog.getInstance(this).show(msg);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void showLoading(int resId) {
+        LoadingDialog.getInstance(this).show(resId);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void dismissLoading() {
+        LoadingDialog.getInstance(this).dismiss();
+    }
 
     private boolean isShowing = false;
 
