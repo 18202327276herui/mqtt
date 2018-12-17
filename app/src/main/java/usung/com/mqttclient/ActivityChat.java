@@ -35,13 +35,8 @@ import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.user.LoginParameter;
 import usung.com.mqttclient.bean.user.LoginResultData;
-import usung.com.mqttclient.bean.user.RegistResultData;
-import usung.com.mqttclient.bean.user.RegisteParameter;
 import usung.com.mqttclient.http.base.Api;
-import usung.com.mqttclient.http.base.BaseResult;
-import usung.com.mqttclient.http.observers.CommonObserver;
 import usung.com.mqttclient.http.observers.NoBaseResultObserver;
-import usung.com.mqttclient.http.observers.NormalObserver;
 
 /**
  * @author herui

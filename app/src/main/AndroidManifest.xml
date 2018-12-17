@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -20,17 +19,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ActivityChat" />
+        <!-- Mqtt Service -->
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <activity android:name=".activity.ActivityStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityChat"></activity>
-        <!-- Mqtt Service -->
-        <service android:name="org.eclipse.paho.android.service.MqttService">
-        </service>
+        <activity android:name=".activity.ActivityLogin"></activity>
     </application>
 
 </manifest>

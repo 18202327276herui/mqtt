@@ -471,11 +471,11 @@
     </style>
     <!-- ******************* Dialog 样式 end **********************-->
 
-    <!--<style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">-->
-        <!--<item name="android:button">@drawable/login_checkbox_style</item>-->
-        <!--<item name="android:textSize">@dimen/text_fontsize_16</item>-->
-        <!--<item name="android:textColor">@color/white</item>-->
-    <!--</style>-->
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/login_checkbox_style</item>
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <!-- actionbar_filter样式 -->
     <style name="PopupWindowAnimation">
