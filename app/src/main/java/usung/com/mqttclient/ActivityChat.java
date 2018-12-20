@@ -84,36 +84,11 @@ public class ActivityChat extends BaseActivity {
         mqttHelper = MqttHelper.getInstance(getActivity());
         mqttAndroidClient = mqttHelper.getMqttAndroidClient();
         initViews();
-
-//        RegisteParameter registeParameter = new RegisteParameter();
-//        registeParameter.setUserId("001");
-//        registeParameter.setNickName("test");
-//        registeParameter.setFirstPassWords("001");
-//        Api.getApiService().registe(registeParameter)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new CommonObserver<RegistResultData>(getActivity()) {
-//                    @Override
-//                    public void onSuccess(RegistResultData registResultData, String msg, int error, int total) {
-//                        Log.e("test", "000");
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg, int error, int total) {
-//
-//                    }
-//                });
     }
 
     @Override
     public void initViews() {
         super.initViews();
-
-        String json = "{\"Result\":0,\"Token\":\"f0a29f2a-00d8-4c49-bf7f-4eb5d9b9b35f\",\"MqttCredencial\":{\"ClientId\":\"6dff775f-6ec2-459e-92ed-dc29d3301a46\",\"UserId\":null,\"Password\":null,\"Host\":\"192.168.0.61\",\"SslPort\":8883,\"Certification\":\"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN4akNDQWE2Z0F3SUJBZ0lKQUprMURiWkJ1OEZETUEwR0NTcUdTSWIzRFFFQkN3VUFNQk14RVRBUEJnTlYKQkFNTUNFMTVWR1Z6ZEVOQk1CNFhEVEUzTVRFd01qRXpOREkwTjFvWERURTVNVEV3TWpFek5ESTBOMW93RXpFUgpNQThHQTFVRUF3d0lUWGxVWlhOMFEwRXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCCkFRRHNoRGhvNmVmMUpDbERKMjRwZVNzWGRGbkZPM3hJQjcrQlNwMVlQY092bVJFQ0tVRzBtTE9SdzNoTm0xNW0KOGVHT24xaUxHRS94S2xhWjc0L3hqeXE4ZjdxSUdaQ212Wmo1OW0rZWlKQ0FteThTaVVKWnRTVm9PbE96ZXBKZApQb0RnY0J2REtBNG9nWjNpSkhNVU5JM0VkbEQ2bnJLRUpGMnFlMkpVckwwZ3Y2NXVvMi9ON1hWTnZFODdEazNKCjgzS3lDQW1ldSt4K21vUzFJTG5qczJEdVBFR1N4WnF6ZjdJUU1iWHVOV0pZQU9aZzl0NEZnMFlqVGlBYVd3M0cKSktBb01ZNHRJM0pDcWx2d0dSNGxIN2tmazNXc0Q0b2ZHbEZoeFU0bkVHMHhnbkpsOEJjb0pXRDFBMlJqR2UxZgpxQ2lqcVBTZTkzbDJ3dDhPcGJ5SHp3YzdBZ01CQUFHakhUQWJNQXdHQTFVZEV3UUZNQU1CQWY4d0N3WURWUjBQCkJBUURBZ0VHTUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFBaSt0NWpCck14RnpvRjc2a3lSZDNyaU5EbFdwMHcKTkNld2tvaEJrd0JIc1FmSHpTbmM2YzUwNGpkeXprRWlENDJVY0k4YXNQc0pjc1lyUStVbzZPQm4wNDl1NDlXbgp6Y1NFUlZTVmVjMS9UQVBTL2VnRlRVOVFNV3RQU0FtOEFFYVE2WVlBdWl3T0xDY0MrQ20vYTNlM2RXU1JXdDhvCkxxS1g2Q1dUbG1LV2UxODJNaEZQcFpZeFpRTEdhcHRpNFI0bWI1UXVzVWJjNnRYYmtjWDgyR2pEUFRPdUF3N2IKbVdwelZkNXhubHA3VnorNTB1K1lhQVlVbUNvYmcwaFIvQXVUckE0R0RNbGd6VG51WlFoRjZvOGlWa3lwWE90UwpVZno2WDN0VlZFclZWYzdVVWZ6U251cEhqMU0yaDRyemxRM29xSG9BRW5YY0ptVjRmL1BmLzZGVwotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==\"},\"OssCredencial\":{\"Id\":\"LTAIDUfq0iEzLZbH\",\"Key\":\"8VHQiVoLE9ymHluppyKfSy5GcB2eY0\",\"Bucket\":\"usung-chat-test\",\"Host\":\"\"},\"DBHost\":\"127.0.0.1\",\"TopicHost\":\"127.0.0.1\",\"GroupStorageHost\":\"127.0.0.1\",\"Code\":200,\"Message\":\"请求成功\"}";
-
-        Gson gson = new Gson();
-        LoginResultData loginResultData = gson.fromJson(json, LoginResultData.class);
 
         headerTitle.setText("Android开发交流 ");
         adapterChatRceyclerView = new AdapterChatRecyclerView(getActivity(), messageLists);

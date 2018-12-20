@@ -5,7 +5,7 @@ import java.io.Serializable;
 import usung.com.mqttclient.bean.HttpRequestParameterBase;
 
 /**
- *
+ * 更换管理员 参数
  * @author herui
  * @date 2018/12/14
  */

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
 
 /**
- *
+ * 登录返回结果
  * @author herui
  * @date 2018/12/13
  */

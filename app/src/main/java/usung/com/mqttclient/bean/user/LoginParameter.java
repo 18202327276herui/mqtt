@@ -3,7 +3,7 @@ package usung.com.mqttclient.bean.user;
 import java.io.Serializable;
 
 /**
- *
+ * 登录参数
  * @author herui
  * @date 2018/12/13
  */

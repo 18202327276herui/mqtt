@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 /**
- *
+ * 自定义mqtt消息
  * @author herui
  * @date 2018/12/12
  */

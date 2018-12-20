@@ -1,0 +1,13 @@
+1，连不上后台给的mqtt服务器
+解决方案：
+http://192.168.0.61:8883 换成 "ssl://192.168.0.61:8883"，或者tcp://192.168.0.61:8883。
+
+2，提示缺少证书
+解决方案：
+找后台要证书，给的pem格式，改为crt格式，直接改后缀名，然后获取SSLSocketFactory，mqttConnectOptions.setSocketFactorySSLSocketFactory)导入证书。
+
+3，引用的库为：https://github.com/eclipse/paho.mqtt.android
+
+4，订阅之后，接收消息的回调messageArrived 中，不能改变UI，需要用handler处理。
+
+5，后台接口返回的数据为实体类的json字符串，不能用CommonObserver或者NormalObserver来处理。

@@ -1,0 +1,144 @@
+package usung.com.mqttclient.activity;
+
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import usung.com.mqttclient.MainActivity;
+import usung.com.mqttclient.R;
+import usung.com.mqttclient.base.BaseActivity;
+import usung.com.mqttclient.bean.HttpResposeDataBase;
+import usung.com.mqttclient.bean.user.RegistResultData;
+import usung.com.mqttclient.bean.user.RegisteParameter;
+import usung.com.mqttclient.http.base.Api;
+import usung.com.mqttclient.http.observers.CommonObserver;
+import usung.com.mqttclient.http.observers.NoBaseResultObserver;
+import usung.com.mqttclient.utils.StringHelper;
+import usung.com.mqttclient.utils.ToastUtil;
+
+import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME;
+import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME_AND_PAW;
+import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_PWD;
+
+/**
+ * @author herui
+ */
+public class ActivityRegister extends BaseActivity {
+    @BindView(R.id.header_title)
+    TextView headerTitle;
+    @BindView(R.id.edt_user_name)
+    EditText edtUserName;
+    @BindView(R.id.edt_nick_name)
+    EditText edtNickName;
+    @BindView(R.id.edt_password)
+    EditText edtPassword;
+    @BindView(R.id.edt_confirm_password)
+    EditText edtConfirmPassword;
+    private String userName;
+    private String nickName;
+    private String passWord;
+    private String confirmPassword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
+
+        initViews();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+
+        headerTitle.setText(getString(R.string.register));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @OnClick({R.id.btn_register})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            // 注册按钮
+            case R.id.btn_register:
+                userName = edtUserName.getText().toString();
+                nickName = edtNickName.getText().toString();
+                passWord = edtPassword.getText().toString();
+                confirmPassword = edtConfirmPassword.getText().toString();
+
+                if (StringHelper.isEmpty(userName)) {
+                    ToastUtil.showToast(getString(R.string.input_user_name));
+                    return;
+                }
+                if (StringHelper.isEmpty(nickName)) {
+                    ToastUtil.showToast(getString(R.string.input_nick_name));
+                    return;
+                }
+                if (StringHelper.isEmpty(passWord)) {
+                    ToastUtil.showToast(getString(R.string.input_passsword));
+                    return;
+                }
+                if (StringHelper.isEmpty(confirmPassword)) {
+                    ToastUtil.showToast(getString(R.string.input_confirm_password));
+                    return;
+                }
+
+                if (!passWord.equalsIgnoreCase(confirmPassword)){
+                    ToastUtil.showToast(getString(R.string.two_password_inconsistencies));
+                    return;
+                }
+
+                register();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 注册
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void register() {
+        showLoading("");
+        RegisteParameter registeParameter = new RegisteParameter();
+        registeParameter.setUserId(userName);
+        registeParameter.setNickName(nickName);
+        registeParameter.setFirstPassWords(passWord);
+        Api.getApiService().registe(registeParameter)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NoBaseResultObserver<RegistResultData>(getActivity()) {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onResponse(RegistResultData registResultData) {
+                        Log.e("test", "0.0");
+                        if (registResultData != null) {
+                            if (registResultData.getResult() == 0 && registResultData.getCode() == HttpResposeDataBase.SUCESSED) {
+                                ToastUtil.showToast(R.string.register_success);
+                            }else {
+                                ToastUtil.showToast(registResultData.getResult() + "");
+                            }
+                        } else {
+                            ToastUtil.showToast(R.string.login_fail);
+                        }
+                        dismissLoading();
+                    }
+                });
+    }
+}

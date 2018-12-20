@@ -5,7 +5,9 @@ import java.io.Serializable;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
 
 /**
- * Created by herui on 2018/12/14.
+ * 注册返回结果
+ * @author herui
+ * @date 2018/12/14
  */
 
 public class RegistResultData extends HttpResposeDataBase implements Serializable {

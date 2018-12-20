@@ -2,7 +2,7 @@ package usung.com.mqttclient.bean;
 
 import java.io.Serializable;
 
-/**
+/** Http 返回数据
  * Created by herui on 2018/12/13.
  */
 

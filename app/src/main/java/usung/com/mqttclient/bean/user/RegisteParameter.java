@@ -3,7 +3,9 @@ package usung.com.mqttclient.bean.user;
 import java.io.Serializable;
 
 /**
- * Created by herui on 2018/12/14.
+ * 注册参数
+ * @author herui
+ * @date 2018/12/14
  */
 
 public class RegisteParameter implements Serializable {

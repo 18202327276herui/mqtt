@@ -139,7 +139,7 @@ public class ActivityLogin extends BaseActivity {
                 login();
                 break;
             case R.id.tv_register:
-//                startActivity(new Intent(ActivityLogin.this, ActivityRegister.class));
+                startActivity(new Intent(ActivityLogin.this, ActivityRegister.class));
                 break;
             case R.id.checkB_remind_account:
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
