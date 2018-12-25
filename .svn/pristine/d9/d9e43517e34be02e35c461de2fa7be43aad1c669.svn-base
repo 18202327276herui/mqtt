@@ -1,0 +1,25 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml:1:1-7:12
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml:1:1-7:12
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml:1:1-7:12
+	package
+		ADDED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml:2:5-47
+		INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+		INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+application
+ADDED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml:4:5-5:19
+uses-sdk
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+		ADDED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+		INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+		ADDED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml
+		INJECTED from D:\dev\mqtt\org.eclipse.paho.android.service\src\main\AndroidManifest.xml

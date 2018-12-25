@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/page_top"
+    style="@style/top_bg_style"
+    android:elevation="2dp">
+
+    <RelativeLayout
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionbar_height"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <ImageView
+            style="@style/actionbar_back" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/header_title"
+        style="@style/page_title_style"
+        android:layout_centerInParent="true"
+        android:text="" />
+
+    <Button
+        android:id="@+id/rightButton"
+        style="@style/font18_white"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@null" />
+
+    <Button
+        android:id="@+id/left_rightButton"
+        style="@style/font16_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rightButton"
+        android:layout_toStartOf="@id/rightButton"
+        android:background="@null"
+        android:text="" />
+
+</RelativeLayout>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context="usung.com.mqttclient.activity.ActivityRegister">
+
+    <include layout="@layout/page_header" />
+
+    <LinearLayout
+        android:id="@+id/ll_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_10"
+        android:layout_margin="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/page_top"
+        android:background="@drawable/corner_white_5"
+        android:orientation="vertical">
+        <!--用户名-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/user_name"/>
+
+            <EditText
+                android:id="@+id/edt_user_name"
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:inputType="text"
+                android:background="@null"
+                android:hint="@string/input_user_name"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/grey" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_height="@dimen/line_height_05"
+            android:background="@color/color_split_line"/>
+        <!--昵称-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/nick_name"/>
+
+            <EditText
+                android:id="@+id/edt_nick_name"
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:background="@null"
+                android:inputType="text"
+                android:hint="@string/input_nick_name"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/grey" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_height="@dimen/line_height_05"
+            android:background="@color/color_split_line"/>
+        <!--密码-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/password"/>
+
+            <EditText
+                android:id="@+id/edt_password"
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:background="@null"
+                android:inputType="phone"
+                android:hint="@string/input_passsword"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/grey" />
+
+        </LinearLayout>
+        <!--确认密码-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/confirm"/>
+
+            <EditText
+                android:id="@+id/edt_confirm_password"
+                style="@style/font16_black"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:background="@null"
+                android:inputType="phone"
+                android:hint="@string/input_confirm_password"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/grey" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/font18_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@drawable/corner_blue_5"
+        app:layout_constraintTop_toBottomOf="@id/ll_register"
+        android:text="@string/register" />
+
+</android.support.constraint.ConstraintLayout>

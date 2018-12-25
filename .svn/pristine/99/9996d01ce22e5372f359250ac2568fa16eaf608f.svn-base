@@ -1,0 +1,3 @@
+org.eclipse.paho.android.service
+int style AppBaseTheme 0x7f160001
+int style AppTheme 0x7f160002
