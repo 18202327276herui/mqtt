@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 /**
  * Http基本请求参数
+ *
  * @author herui
  * @date 2018/12/14
  */
 
 public class HttpRequestParameterBase implements Serializable {
     public String Token;
-    public String SelfId ;
+    public String SelfId;
 
     public String getToken() {
         return Token;

@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -26,17 +24,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import usung.com.mqttclient.adapter.AdapterChatRecyclerView;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
-import usung.com.mqttclient.bean.user.LoginParameter;
-import usung.com.mqttclient.bean.user.LoginResultData;
-import usung.com.mqttclient.http.base.Api;
-import usung.com.mqttclient.http.observers.NoBaseResultObserver;
 
 /**
  * @author herui

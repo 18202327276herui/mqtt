@@ -15,6 +15,9 @@ public class RegistResultData extends HttpResposeDataBase implements Serializabl
     /// 注册结果
     /// </summary>
     public int Result;
+    /// 注册结果
+    /// </summary>
+    public String ResultMessage;
 
     public int getResult() {
         return Result;
@@ -22,5 +25,13 @@ public class RegistResultData extends HttpResposeDataBase implements Serializabl
 
     public void setResult(int result) {
         Result = result;
+    }
+
+    public String getResultMessage() {
+        return ResultMessage;
+    }
+
+    public void setResultMessage(String resultMessage) {
+        ResultMessage = resultMessage;
     }
 }

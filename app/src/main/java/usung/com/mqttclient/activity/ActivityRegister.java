@@ -1,6 +1,5 @@
 package usung.com.mqttclient.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -14,21 +13,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import usung.com.mqttclient.MainActivity;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
 import usung.com.mqttclient.bean.user.RegistResultData;
 import usung.com.mqttclient.bean.user.RegisteParameter;
 import usung.com.mqttclient.http.base.Api;
-import usung.com.mqttclient.http.observers.CommonObserver;
 import usung.com.mqttclient.http.observers.NoBaseResultObserver;
 import usung.com.mqttclient.utils.StringHelper;
 import usung.com.mqttclient.utils.ToastUtil;
-
-import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME;
-import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME_AND_PAW;
-import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_PWD;
 
 /**
  * @author herui
@@ -127,15 +120,15 @@ public class ActivityRegister extends BaseActivity {
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onResponse(RegistResultData registResultData) {
-                        Log.e("test", "0.0");
                         if (registResultData != null) {
                             if (registResultData.getResult() == 0 && registResultData.getCode() == HttpResposeDataBase.SUCESSED) {
                                 ToastUtil.showToast(R.string.register_success);
+                                finish();
                             }else {
                                 ToastUtil.showToast(registResultData.getResult() + "");
                             }
                         } else {
-                            ToastUtil.showToast(R.string.login_fail);
+                            ToastUtil.showToast(R.string.register_fail);
                         }
                         dismissLoading();
                     }

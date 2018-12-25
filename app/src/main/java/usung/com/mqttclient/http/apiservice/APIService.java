@@ -4,11 +4,14 @@ package usung.com.mqttclient.http.apiservice;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import usung.com.mqttclient.bean.HttpRequestParameterBase;
+import usung.com.mqttclient.bean.db.GetUserSimpleInfoParameter;
+import usung.com.mqttclient.bean.db.InitiaDataResult;
 import usung.com.mqttclient.bean.user.LoginParameter;
 import usung.com.mqttclient.bean.user.LoginResultData;
 import usung.com.mqttclient.bean.user.RegistResultData;
 import usung.com.mqttclient.bean.user.RegisteParameter;
-import usung.com.mqttclient.http.base.BaseResult;
+import usung.com.mqttclient.bean.user.UserSimpleInfoResult;
 
 /**
  * 服务器API地址
@@ -18,7 +21,6 @@ import usung.com.mqttclient.http.base.BaseResult;
 public interface APIService {
 
 //    String baseUrl = BaseApplication.getInstance().getSERVER_URL();
-
     /**
      * 登录
      */
@@ -29,9 +31,9 @@ public interface APIService {
      */
     @POST("registe")
     Observable<RegistResultData> registe(@Body RegisteParameter body);
-    /**
-     * 更换token
-     */
+//    /**
+//     * 更换token
+//     */
 //    @POST("changetoken")
 //    Observable<> changetoken(@Body );
 //    /**
@@ -39,4 +41,15 @@ public interface APIService {
 //     */
 //    @POST("getadministrator")
 //    Observable<> getadministrator(@Body );
+    /**
+     * 获取用户简要消息
+     */
+    @POST("getusersimpleinfo")
+    Observable<UserSimpleInfoResult> getusersimpleinfo(@Body GetUserSimpleInfoParameter body);
+    /**
+     * 获取初始化数据
+     */
+    @POST("getinitiadata")
+    Observable<InitiaDataResult> getinitiadata(@Body HttpRequestParameterBase body);
+
 }

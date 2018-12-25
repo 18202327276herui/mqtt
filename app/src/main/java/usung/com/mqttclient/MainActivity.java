@@ -1,8 +1,11 @@
 package usung.com.mqttclient;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,13 +16,30 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import usung.com.mqttclient.activity.ActivityLogin;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.adapter.PagerAdapter;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.base.MqttHelper;
+import usung.com.mqttclient.bean.HttpRequestParameterBase;
+import usung.com.mqttclient.bean.HttpResposeDataBase;
+import usung.com.mqttclient.bean.db.InitiaDataResult;
+import usung.com.mqttclient.bean.user.LoginResultData;
+import usung.com.mqttclient.bean.user.RegistResultData;
 import usung.com.mqttclient.fragment.FragmentHome;
 import usung.com.mqttclient.fragment.FragmentMessage;
 import usung.com.mqttclient.fragment.FragmentMy;
+import usung.com.mqttclient.http.apiservice.APIService;
+import usung.com.mqttclient.http.base.Api;
+import usung.com.mqttclient.http.observers.NoBaseResultObserver;
+import usung.com.mqttclient.utils.SharePreferenceUtil;
+import usung.com.mqttclient.utils.ToastUtil;
+import usung.com.mqttclient.utils.UserUtil;
+
+import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME;
+import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME_AND_PAW;
 
 /**
  * 主界面
@@ -43,7 +63,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @BindView(R.id.vp_view_pager)
     ViewPager vpViewPager;
     private AdapterMainRecyclerView adapterMainRceyclerView;
+    private LoginResultData loginResultData;
+    private SharePreferenceUtil spUtil;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +74,40 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ButterKnife.bind(this);
         initViews();
         initFragment();
+        initData();
         MqttHelper.getInstance(getActivity());
     }
 
     @Override
     public void initViews() {
+        loginResultData = UserUtil.getUser(getActivity());
+        spUtil = new SharePreferenceUtil(MainActivity.this);
+    }
+
+    /**
+     * 初始化数据
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void initData() {
+        showLoading("");
+        HttpRequestParameterBase httpRequestParameterBase = new HttpRequestParameterBase();
+        httpRequestParameterBase.setSelfId(spUtil.getPreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_NAME));
+        httpRequestParameterBase.setToken(loginResultData.getToken());
+        Api.getApiService().getinitiadata(httpRequestParameterBase)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NoBaseResultObserver<InitiaDataResult>(getActivity()) {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onResponse(InitiaDataResult initiaDataResult) {
+                        if (initiaDataResult != null && initiaDataResult.getCode() == HttpResposeDataBase.SUCESSED) {
+                            ToastUtil.showToast(R.string.register_success);
+                        } else {
+                            ToastUtil.showToast(R.string.register_fail);
+                        }
+                        dismissLoading();
+                    }
+                });
     }
 
     /**

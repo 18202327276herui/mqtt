@@ -11,3 +11,5 @@ http://192.168.0.61:8883 换成 "ssl://192.168.0.61:8883"，或者tcp://192.168.0.61:
 4，订阅之后，接收消息的回调messageArrived 中，不能改变UI，需要用handler处理。
 
 5，后台接口返回的数据为实体类的json字符串，不能用CommonObserver或者NormalObserver来处理。
+
+6，c# 中的 Dictionary类 对应Java中的Map类

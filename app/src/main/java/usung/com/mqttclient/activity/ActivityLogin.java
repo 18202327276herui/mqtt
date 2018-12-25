@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,14 +36,18 @@ import usung.com.mqttclient.R;
 import usung.com.mqttclient.adapter.AdapterRecordLoginInfo;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
+import usung.com.mqttclient.bean.HttpRequestParameterBase;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
+import usung.com.mqttclient.bean.db.InitiaDataResult;
 import usung.com.mqttclient.bean.user.LoginParameter;
 import usung.com.mqttclient.bean.user.LoginResultData;
 import usung.com.mqttclient.http.base.Api;
 import usung.com.mqttclient.http.observers.NoBaseResultObserver;
+import usung.com.mqttclient.utils.GsonHelper;
 import usung.com.mqttclient.utils.SharePreferenceUtil;
 import usung.com.mqttclient.utils.StringHelper;
 import usung.com.mqttclient.utils.ToastUtil;
+import usung.com.mqttclient.utils.UserUtil;
 import usung.com.mqttclient.widget.RecordLoginPopWindow;
 
 import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME;
@@ -199,6 +204,7 @@ public class ActivityLogin extends BaseActivity {
                                     loginDataList.remove(0);
                                 }
                                 saveLoginDataList();
+                                UserUtil.putUser(getActivity(), loginResultData);
                                 ToastUtil.showToast(R.string.login_success);
                                 startActivity(new Intent(ActivityLogin.this, MainActivity.class));
                                 finish();
