@@ -3,15 +3,23 @@ package usung.com.mqttclient.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+
+import java.util.List;
 
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.base.BaseActivity;
+import usung.com.mqttclient.utils.PermissionHelper;
 
 /**
  * @author herui
  * @dtae 2018/12/17
  */
 public class ActivityStart extends BaseActivity {
+//    private String[] permissions = {PermissionHelper.PERMISSION_CAMERA, PermissionHelper.PERMISSION_ACCESS_FINE_LOCATION, PermissionHelper.PERMISSION_READ_PHONE_STATE,
+//            PermissionHelper.PERMISSION_WRITE_EXTERNAL_STORAGE};
+    private String[] permissions = {PermissionHelper.PERMISSION_READ_PHONE_STATE,
+            PermissionHelper.PERMISSION_WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,17 @@ public class ActivityStart extends BaseActivity {
             return;
         }
 
+        if (PermissionHelper.needCheckPermission()) {
+            if (PermissionHelper.requestPerssions(this, PermissionHelper.CODE_MULTI_PERMISSION, permissions)) {
+                loadLoginUI();
+            }
+        } else {
+            loadLoginUI();
+        }
+
+    }
+
+    public void loadLoginUI(){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -32,5 +51,25 @@ public class ActivityStart extends BaseActivity {
                 finish();
             }
         }, 2000);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        PermissionHelper.onRequestPermissionsResult(PermissionHelper.CODE_MULTI_PERMISSION, permissions, grantResults, new PermissionHelper.OnRequestPermissionsResultCallbacks() {
+            @Override
+            public void onPermissionsGranted(int requestCode, List<String> perms, boolean isAllGranted) {
+                if (isAllGranted) {
+                    loadLoginUI();
+                }
+            }
+
+            @Override
+            public void onPermissionsDenied(int requestCode, List<String> perms, boolean isAllDenied) {
+                PermissionHelper.openSettingActivity(ActivityStart.this, ActivityLogin.class.getSimpleName(),
+                        getString(R.string.permission_prompt), true);
+            }
+        });
     }
 }

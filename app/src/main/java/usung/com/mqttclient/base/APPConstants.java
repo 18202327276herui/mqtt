@@ -12,6 +12,7 @@ public class APPConstants {
 
     public static final int TYPE_LEFT = 1;
     public static final int TYPE_RIGHT = 2;
+    public static final String ENDPOINT = "http://oss-cn-hangzhou.aliyuncs.com";
 
     /**
      * 登录账号的保存

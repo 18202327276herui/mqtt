@@ -70,6 +70,8 @@ dependencies {
     }
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.github.promeg:tinypinyin:2.0.1'
+
+    implementation 'com.aliyun.dpa:oss-android-sdk:+'
 }
 
 configurations.compile.exclude module: 'org.eclipse.paho.client.mqttv3'

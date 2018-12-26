@@ -101,9 +101,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     @Override
                     public void onResponse(InitiaDataResult initiaDataResult) {
                         if (initiaDataResult != null && initiaDataResult.getCode() == HttpResposeDataBase.SUCESSED) {
-                            ToastUtil.showToast(R.string.register_success);
+//                            ToastUtil.showToast(R.string.register_success);
                         } else {
-                            ToastUtil.showToast(R.string.register_fail);
+//                            ToastUtil.showToast(R.string.register_fail);
                         }
                         dismissLoading();
                     }
