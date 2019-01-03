@@ -36,13 +36,13 @@ import usung.com.mqttclient.utils.cn.CNPinyinFactory;
 import usung.com.mqttclient.widget.CharIndexView;
 
 /**
- * 主页 -- 消息
+ * 主页 -- 通讯录
  *
  * @author herui
  * @date 2018/12/10
  */
 
-public class FragmentMessage extends BaseFragment {
+public class FragmentMailList extends BaseFragment {
     @BindView(R.id.header_title)
     TextView headerTitle;
     @BindView(R.id.backButton)
@@ -57,8 +57,8 @@ public class FragmentMessage extends BaseFragment {
     private ContactAdapter adapter;
     private ArrayList<CNPinyin<Contact>> contactList = new ArrayList<>();
 
-    public static FragmentMessage newInstance(Bundle bundle) {
-        FragmentMessage f = new FragmentMessage();
+    public static FragmentMailList newInstance(Bundle bundle) {
+        FragmentMailList f = new FragmentMailList();
         f.setArguments(bundle);
         return f;
     }
@@ -76,7 +76,7 @@ public class FragmentMessage extends BaseFragment {
     protected void initViews() {
         super.initViews();
 
-        headerTitle.setText("消息");
+        headerTitle.setText(R.string.mail_list);
         backButtonView.setVisibility(View.GONE);
 
         adapter = new ContactAdapter(contactList);

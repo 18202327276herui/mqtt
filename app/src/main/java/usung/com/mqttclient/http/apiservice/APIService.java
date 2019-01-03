@@ -52,4 +52,6 @@ public interface APIService {
     @POST("getinitiadata")
     Observable<InitiaDataResult> getinitiadata(@Body HttpRequestParameterBase body);
 
+//    @POST("getgroupmessageafter")
+//    Observable<> getgroupmessageafter(@Body body);
 }
