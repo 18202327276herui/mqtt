@@ -1,5 +1,6 @@
 package usung.com.mqttclient.bean.db;
 
+import usung.com.mqttclient.bean.user.UserSimpleInfo;
 import usung.com.mqttclient.utils.cn.CN;
 
 /**
@@ -12,9 +13,12 @@ public class Contact implements CN {
 
     public final int imgUrl;
 
-    public Contact(String name, int imgUrl) {
+    public UserSimpleInfo userSimpleInfo;
+
+    public Contact(String name, int imgUrl, UserSimpleInfo userSimpleInfo) {
         this.name = name;
         this.imgUrl = imgUrl;
+        this.userSimpleInfo = userSimpleInfo;
     }
 
     @Override

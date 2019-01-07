@@ -191,9 +191,6 @@ public class ActivityLogin extends BaseActivity {
                                     spUtil.removePreference(SHARE_LOGIN_NAME_AND_PAW, "ischecked");
                                 }
                                 spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_NAME, userName);
-//                        spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, "userFullName", user.getFullName());
-//                        spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, "userId", user.getUserId());
-//                        UserUtil.putUser(getActivity(), user);
                                 // 判断登录名是否存在于loginDataList 集合中
                                 if (!loginDataList.contains(userName)) {
                                     loginDataList.add(userName);

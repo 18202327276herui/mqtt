@@ -4,13 +4,15 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
+import usung.com.mqttclient.bean.db.Message;
+
 /**
  * 自定义mqtt消息
  * @author herui
  * @date 2018/12/12
  */
 
-public class HrMqttMessage implements Serializable {
+public class HrMqttMessage extends Message implements Serializable {
     /**
      *  消息文本
      */

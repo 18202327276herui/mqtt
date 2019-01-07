@@ -23,7 +23,7 @@ public class TestUtils {
         for (int i = 0; i < names.length; i++) {
             int urlIndex = random.nextInt(URLS.length);
             int url = URLS[urlIndex];
-            contactList.add(new Contact(names[i], url));
+//            contactList.add(new Contact(names[i], url));
         }
         return contactList;
     }

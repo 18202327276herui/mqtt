@@ -30,7 +30,9 @@ import usung.com.mqttclient.fragment.FragmentMailList;
 import usung.com.mqttclient.fragment.FragmentMy;
 import usung.com.mqttclient.http.base.Api;
 import usung.com.mqttclient.http.observers.NoBaseResultObserver;
+import usung.com.mqttclient.utils.InitiadataUtil;
 import usung.com.mqttclient.utils.SharePreferenceUtil;
+import usung.com.mqttclient.utils.ToastUtil;
 import usung.com.mqttclient.utils.UserUtil;
 
 import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME;
@@ -68,7 +70,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initViews();
-        initFragment();
         initData();
         MqttHelper.getInstance(getActivity());
     }
@@ -96,10 +97,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     @Override
                     public void onResponse(InitiaDataResult initiaDataResult) {
                         if (initiaDataResult != null && initiaDataResult.getCode() == HttpResposeDataBase.SUCESSED) {
-//                            ToastUtil.showToast(R.string.register_success);
+                            InitiadataUtil.putInitiadata(getActivity(), initiaDataResult);
                         } else {
-//                            ToastUtil.showToast(R.string.register_fail);
+                            ToastUtil.showToast(R.string.get_initiadata_fail);
                         }
+                        initFragment();
                         dismissLoading();
                     }
                 });

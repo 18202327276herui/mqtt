@@ -18,20 +18,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
-import com.alibaba.sdk.android.oss.common.OSSLog;
-import com.alibaba.sdk.android.oss.common.auth.OSSAuthCredentialsProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
-import com.alibaba.sdk.android.oss.common.auth.OSSCustomSignerCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.GetObjectRequest;
@@ -45,13 +40,11 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +56,7 @@ import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.user.LoginResultData;
 import usung.com.mqttclient.bean.user.OssLoginCredencial;
+import usung.com.mqttclient.bean.user.UserSimpleInfo;
 import usung.com.mqttclient.utils.UserUtil;
 
 /**
@@ -113,6 +107,7 @@ public class ActivityChat extends BaseActivity {
     private OssLoginCredencial ossLoginCredencial;
     private static final int RESULT_LOAD_IMAGE = 1;
     private String mPicturePath = "";
+    private UserSimpleInfo userSimpleInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +115,7 @@ public class ActivityChat extends BaseActivity {
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
+        userSimpleInfo = (UserSimpleInfo) getIntent().getSerializableExtra("userSimpleInfo");
         mqttHelper = MqttHelper.getInstance(getActivity());
         mqttAndroidClient = mqttHelper.getMqttAndroidClient();
         loginResultData = UserUtil.getUser(getActivity());
@@ -132,7 +128,7 @@ public class ActivityChat extends BaseActivity {
     public void initViews() {
         super.initViews();
 
-        headerTitle.setText("Android开发交流 ");
+        headerTitle.setText(userSimpleInfo.getNickName());
         adapterChatRceyclerView = new AdapterChatRecyclerView(getActivity(), messageLists);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -171,24 +167,24 @@ public class ActivityChat extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send:
-//                HrMqttMessage hrMqttMessage = new HrMqttMessage();
-//                hrMqttMessage.setText(etMessage.getText().toString());
-//                hrMqttMessage.setType(APPConstants.TYPE_RIGHT);
-//                messageLists.add(hrMqttMessage);
-//                adapterChatRceyclerView.notifyDataSetChanged();
-//                mRecyclerView.smoothScrollToPosition(messageLists.size());
-//                mqttHelper.publishMessage(etMessage.getText().toString());
+                HrMqttMessage hrMqttMessage = new HrMqttMessage();
+                hrMqttMessage.setText(etMessage.getText().toString());
+                hrMqttMessage.setType(APPConstants.TYPE_RIGHT_TEXT);
+                messageLists.add(hrMqttMessage);
+                adapterChatRceyclerView.notifyDataSetChanged();
+                mRecyclerView.smoothScrollToPosition(messageLists.size());
+                mqttHelper.publishMessage(etMessage.getText().toString());
 
-                // 传图片
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                // 传图片
+//                Intent i = new Intent(
+//                        Intent.ACTION_PICK,
+//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 // 传文件
 //                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
 //                i.setType("video/*;image/*");
 //                i.addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+//                startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
             default:
                 break;

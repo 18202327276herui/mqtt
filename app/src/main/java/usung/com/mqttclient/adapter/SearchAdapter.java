@@ -1,6 +1,10 @@
 package usung.com.mqttclient.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +14,27 @@ import java.util.List;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.bean.db.Contact;
 import usung.com.mqttclient.bean.user.UserSimpleInfo;
-import usung.com.mqttclient.utils.StickyHeaderAdapter;
-import usung.com.mqttclient.utils.cn.CNPinyin;
+import usung.com.mqttclient.utils.cn.CNPinyinIndex;
 
 /**
- * Created by you on 2017/9/11.
+ * Created by you on 2017/9/12.
  */
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implements StickyHeaderAdapter<HeaderHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<ContactHolder> {
     private onItemClickListener listener;
-    private final List<CNPinyin<Contact>> cnPinyinList;
-
-    public ContactAdapter(List<CNPinyin<Contact>> cnPinyinList) {
-        this.cnPinyinList = cnPinyinList;
-    }
+    private final List<CNPinyinIndex<Contact>> contactList;
 
     public void setListener(onItemClickListener listener) {
         this.listener = listener;
     }
 
+    public SearchAdapter(List<CNPinyinIndex<Contact>> contactList) {
+        this.contactList = contactList;
+    }
+
     @Override
     public int getItemCount() {
-        return cnPinyinList.size();
+        return contactList.size();
     }
 
     @Override
@@ -42,9 +45,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
 
     @Override
     public void onBindViewHolder(ContactHolder holder, int position) {
-        Contact contact = cnPinyinList.get(position).data;
+        CNPinyinIndex<Contact> index = contactList.get(position);
+        Contact contact = index.cnPinyin.data;
         holder.iv_header.setImageResource(contact.imgUrl);
-        holder.tv_name.setText(contact.name);
+
+        SpannableStringBuilder ssb = new SpannableStringBuilder(contact.chinese());
+        ForegroundColorSpan span = new ForegroundColorSpan(Color.BLUE);
+        ssb.setSpan(span, index.start, index.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.tv_name.setText(ssb);
+
         holder.ll_item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,22 +62,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
         });
     }
 
-    @Override
-    public long getHeaderId(int childAdapterPosition) {
-        return cnPinyinList.get(childAdapterPosition).getFirstChar();
+    public void setNewDatas(List<CNPinyinIndex<Contact>> newDatas) {
+        this.contactList.clear();
+        if (newDatas != null && !newDatas.isEmpty()) {
+            this.contactList.addAll(newDatas);
+        }
+        notifyDataSetChanged();
     }
-
-    @Override
-    public void onBindHeaderViewHolder(HeaderHolder holder, int childAdapterPosition) {
-        holder.tv_header.setText(String.valueOf(cnPinyinList.get(childAdapterPosition).getFirstChar()));
-    }
-
-    @Override
-    public HeaderHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        return new HeaderHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_header, parent, false));
-    }
-
 
     public interface onItemClickListener{
         void onItemClick(View view, UserSimpleInfo userSimpleInfo);

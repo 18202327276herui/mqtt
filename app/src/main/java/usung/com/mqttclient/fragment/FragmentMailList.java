@@ -1,5 +1,6 @@
 package usung.com.mqttclient.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,19 +19,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import usung.com.mqttclient.ActivityChat;
 import usung.com.mqttclient.R;
+import usung.com.mqttclient.activity.ActivitySearch;
+import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.adapter.ContactAdapter;
 import usung.com.mqttclient.base.BaseFragment;
 import usung.com.mqttclient.bean.db.Contact;
+import usung.com.mqttclient.bean.db.InitiaDataResult;
+import usung.com.mqttclient.bean.user.UserSimpleInfo;
+import usung.com.mqttclient.utils.InitiadataUtil;
 import usung.com.mqttclient.utils.StickyHeaderDecoration;
-import usung.com.mqttclient.utils.TestUtils;
 import usung.com.mqttclient.utils.cn.CNPinyin;
 import usung.com.mqttclient.utils.cn.CNPinyinFactory;
 import usung.com.mqttclient.widget.CharIndexView;
@@ -56,6 +55,8 @@ public class FragmentMailList extends BaseFragment {
 
     private ContactAdapter adapter;
     private ArrayList<CNPinyin<Contact>> contactList = new ArrayList<>();
+    private List<Contact> contacts = new ArrayList<>();
+    private InitiaDataResult initiaDataResult;
 
     public static FragmentMailList newInstance(Bundle bundle) {
         FragmentMailList f = new FragmentMailList();
@@ -66,8 +67,9 @@ public class FragmentMailList extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View messageView = inflater.inflate(R.layout.fragment_message, container, false);
+        View messageView = inflater.inflate(R.layout.fragment_mail_list, container, false);
         ButterKnife.bind(this, messageView);
+        initiaDataResult = InitiadataUtil.getInitiadata(getActivity());
         initViews();
         return messageView;
     }
@@ -79,12 +81,8 @@ public class FragmentMailList extends BaseFragment {
         headerTitle.setText(R.string.mail_list);
         backButtonView.setVisibility(View.GONE);
 
-        adapter = new ContactAdapter(contactList);
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         rvMain.setLayoutManager(manager);
-        rvMain.setAdapter(adapter);
-        rvMain.addItemDecoration(new StickyHeaderDecoration(adapter));
-
         ivMain.setOnCharIndexChangedListener(new CharIndexView.OnCharIndexChangedListener() {
             @Override
             public void onCharIndexChanged(char currentIndex) {
@@ -110,35 +108,23 @@ public class FragmentMailList extends BaseFragment {
     }
 
     private void getPinyinList() {
-        Observable.create(new ObservableOnSubscribe<List<CNPinyin<Contact>>>() {
+        List<UserSimpleInfo> userSimpleInfoList = initiaDataResult.getData().getFriendList();
+        for (UserSimpleInfo userSimpleInfo : userSimpleInfoList) {
+            Contact contact = new Contact(userSimpleInfo.getNickName(), R.mipmap.header0, userSimpleInfo);
+            contacts.add(contact);
+        }
+        contactList = CNPinyinFactory.createCNPinyinList(contacts);
+        Collections.sort(contactList);
+        adapter = new ContactAdapter(contactList);
+        rvMain.setAdapter(adapter);
+        rvMain.addItemDecoration(new StickyHeaderDecoration(adapter));
+
+        adapter.setListener(new ContactAdapter.onItemClickListener() {
             @Override
-            public void subscribe(ObservableEmitter<List<CNPinyin<Contact>>> emitter) throws Exception {
-                List<CNPinyin<Contact>> contactList = CNPinyinFactory.createCNPinyinList(TestUtils.contactList(getActivity()));
-                Collections.sort(contactList);
-                emitter.onNext(contactList);
-                emitter.onComplete();
+            public void onItemClick(View view, UserSimpleInfo userSimpleInfo) {
+                startActivity(new Intent(getActivity(), ActivityChat.class).putExtra("userSimpleInfo", userSimpleInfo));
             }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<CNPinyin<Contact>>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
-                    @Override
-                    public void onNext(List<CNPinyin<Contact>> cnPinyins) {
-                        contactList.addAll(cnPinyins);
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                });
+        });
     }
 
     @Override
@@ -150,7 +136,7 @@ public class FragmentMailList extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_search:
-
+                startActivity(new Intent(getActivity(), ActivitySearch.class).putExtra("contactList", contactList));
                 break;
             default:
                 break;

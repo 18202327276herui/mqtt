@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="usung.com.mqttclient.MainActivity">
+    tools:context="usung.com.mqttclient.MainActivity"
+    android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"/>
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:id="@+id/bottom_tab"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/white">
 
         <!--首页-->
@@ -121,4 +121,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
