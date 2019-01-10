@@ -70,6 +70,7 @@ public class AdapterChatRecyclerView extends RecyclerView.Adapter<AdapterChatRec
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvMessage.setText(messageLists.get(position).getText());
         holder.imageView.setImageBitmap(messageLists.get(position).getBitmap());
+        holder.tvDate.setText(messageLists.get(position).getTime());
     }
 
     @Override
@@ -82,6 +83,8 @@ public class AdapterChatRecyclerView extends RecyclerView.Adapter<AdapterChatRec
         TextView tvMessage;
         @BindView(R.id.iv_img)
         ImageView imageView;
+        @BindView(R.id.tv_date)
+        TextView tvDate;
 
         public ViewHolder(View itemView) {
             super(itemView);

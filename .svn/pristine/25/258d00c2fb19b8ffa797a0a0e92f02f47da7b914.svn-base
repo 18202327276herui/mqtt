@@ -52,21 +52,10 @@ public class FragmentMailList extends BaseFragment {
     CharIndexView ivMain;
     @BindView(R.id.tv_index)
     TextView tvIndex;
-    /**
-     *  联系人适配器
-     */
+
     private ContactAdapter adapter;
-    /**
-     *  联系人列表 （转拼音）
-     */
     private ArrayList<CNPinyin<Contact>> contactList = new ArrayList<>();
-    /**
-     *  联系人列表
-     */
     private List<Contact> contacts = new ArrayList<>();
-    /**
-     *  初始化返回数据
-     */
     private InitiaDataResult initiaDataResult;
 
     public static FragmentMailList newInstance(Bundle bundle) {
@@ -80,7 +69,6 @@ public class FragmentMailList extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View messageView = inflater.inflate(R.layout.fragment_mail_list, container, false);
         ButterKnife.bind(this, messageView);
-        // 获取初始化数据
         initiaDataResult = InitiadataUtil.getInitiadata(getActivity());
         initViews();
         return messageView;
@@ -93,10 +81,8 @@ public class FragmentMailList extends BaseFragment {
         headerTitle.setText(R.string.mail_list);
         backButtonView.setVisibility(View.GONE);
 
-        // RecyclerView 适配器
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         rvMain.setLayoutManager(manager);
-        // 右边首字母检索
         ivMain.setOnCharIndexChangedListener(new CharIndexView.OnCharIndexChangedListener() {
             @Override
             public void onCharIndexChanged(char currentIndex) {
@@ -121,23 +107,18 @@ public class FragmentMailList extends BaseFragment {
         getPinyinList();
     }
 
-    /**
-     *  获取拼音列表
-     */
     private void getPinyinList() {
-        // 获取好友列表
         List<UserSimpleInfo> userSimpleInfoList = initiaDataResult.getData().getFriendList();
         for (UserSimpleInfo userSimpleInfo : userSimpleInfoList) {
             Contact contact = new Contact(userSimpleInfo.getNickName(), R.mipmap.header0, userSimpleInfo);
             contacts.add(contact);
         }
         contactList = CNPinyinFactory.createCNPinyinList(contacts);
-        // 排序
         Collections.sort(contactList);
         adapter = new ContactAdapter(contactList);
         rvMain.setAdapter(adapter);
         rvMain.addItemDecoration(new StickyHeaderDecoration(adapter));
-        // adapter 点击事件
+
         adapter.setListener(new ContactAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, UserSimpleInfo userSimpleInfo) {
@@ -154,7 +135,6 @@ public class FragmentMailList extends BaseFragment {
     @OnClick({R.id.left_rightButton, R.id.bt_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            // 查找
             case R.id.bt_search:
                 startActivity(new Intent(getActivity(), ActivitySearch.class).putExtra("contactList", contactList));
                 break;

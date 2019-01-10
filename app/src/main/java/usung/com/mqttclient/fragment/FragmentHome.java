@@ -1,6 +1,5 @@
 package usung.com.mqttclient.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import usung.com.mqttclient.ActivityChat;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.base.BaseFragment;
@@ -37,7 +35,9 @@ public class FragmentHome extends BaseFragment {
     TextView headerTitle;
     @BindView(R.id.backButton)
     RelativeLayout backButtonView;
-
+    /**
+     *  适配器
+     */
     private AdapterMainRecyclerView adapterMainRceyclerView;
 
     public static FragmentHome newInstance(Bundle bundle) {
@@ -56,25 +56,26 @@ public class FragmentHome extends BaseFragment {
     }
 
     @Override
-    protected void initViews() {
+        protected void initViews() {
         headerTitle.setText("首页");
         backButtonView.setVisibility(View.GONE);
 
         List<String> dataLists = new ArrayList<>();
-        dataLists.add("123");
-        dataLists.add("456");
-        dataLists.add("789");
+//        dataLists.add("123");
+//        dataLists.add("456");
+//        dataLists.add("789");
         adapterMainRceyclerView = new AdapterMainRecyclerView(getActivity(), dataLists);
+        // 配置RceyclerView
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvList.setLayoutManager(manager);
         rvList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         rvList.setAdapter(adapterMainRceyclerView);
-
+        // RceyclerView点击事件
         adapterMainRceyclerView.setListener(new AdapterMainRecyclerView.onItemClickListener() {
             @Override
             public void onItemClick(View view) {
-                startActivity(new Intent(getActivity(), ActivityChat.class));
+//                startActivity(new Intent(getActivity(), ActivityChat.class));
             }
         });
     }

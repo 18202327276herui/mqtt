@@ -3,7 +3,9 @@ package usung.com.mqttclient.base;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import butterknife.Unbinder;
 import usung.com.mqttclient.R;
+import usung.com.mqttclient.widget.LoadingDialog;
 
 /**
  * 基础Fragment Fragment都应该继承此类
@@ -171,13 +174,13 @@ public class BaseFragment extends Fragment implements OnClickListener {
 //        }
     }
 
-//    public void showLoading(String msg) {
-//        LoadingDialog.getInstance(getContext()).show(msg);
-//    }
-//
-//    public void dismissLoading() {
-//        LoadingDialog.getInstance(getContext()).dismiss();
-//    }
+    public void showLoading(String msg) {
+        LoadingDialog.getInstance(getContext()).show(msg);
+    }
+
+    public void dismissLoading() {
+        LoadingDialog.getInstance(getContext()).dismiss();
+    }
 
     protected void setRightButtonText(int resId) {
         setRightButtonText(getString(resId));

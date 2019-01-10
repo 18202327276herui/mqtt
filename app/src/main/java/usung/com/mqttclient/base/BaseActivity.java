@@ -260,17 +260,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 //        AlertDialog.destroy(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void showLoading(String msg) {
         LoadingDialog.getInstance(this).show(msg);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void showLoading(int resId) {
         LoadingDialog.getInstance(this).show(resId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void dismissLoading() {
         LoadingDialog.getInstance(this).dismiss();
     }

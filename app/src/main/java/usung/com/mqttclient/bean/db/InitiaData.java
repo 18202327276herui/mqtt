@@ -43,7 +43,7 @@ public class InitiaData {
     /// 所有好友和群组的主题，键值对 {userid，topic}
     /// 在线 value不等于空（""），离线value为空（""）
     /// </summary>
-//    public KeyValuePair<String, String>[] AllTopic;
+    public List<KeyValue> AllTopic;
 
     /// <summary>
     /// 分配给客户端的系统管理员的主题，所有的系统请求，需要通过这个主题发送，添加好友，添加群，邀请入群
@@ -113,5 +113,13 @@ public class InitiaData {
 
     public void setAdmin(AdministratorInfo admin) {
         Admin = admin;
+    }
+
+    public List<KeyValue> getAllTopic() {
+        return AllTopic;
+    }
+
+    public void setAllTopic(List<KeyValue> allTopic) {
+        AllTopic = allTopic;
     }
 }

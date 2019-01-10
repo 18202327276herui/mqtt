@@ -8,6 +8,7 @@ public class APPConstants {
     public static final String SERVER_URL = "http://192.168.0.61:10336/";
 //    public static final String SERVER_URL = "http://192.168.0.43:10336/";
     public static final int UPDATE_RECYCLEVIEW = 1;
+    public static final int UPDATE_RECYCLEVIEW_IMG = 2;
 
     public static final int TYPE_LEFT_TEXT = 1;
     public static final int TYPE_RIGHT_TEXT = 2;

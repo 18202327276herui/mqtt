@@ -43,9 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,15 +54,9 @@ import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
-import usung.com.mqttclient.bean.db.InitiaDataResult;
-import usung.com.mqttclient.bean.db.KeyValue;
 import usung.com.mqttclient.bean.user.LoginResultData;
 import usung.com.mqttclient.bean.user.OssLoginCredencial;
 import usung.com.mqttclient.bean.user.UserSimpleInfo;
-import usung.com.mqttclient.bean.user.UserStateInfo;
-import usung.com.mqttclient.utils.GsonHelper;
-import usung.com.mqttclient.utils.InitiadataUtil;
-import usung.com.mqttclient.utils.TimeHelper;
 import usung.com.mqttclient.utils.UserUtil;
 
 /**
@@ -75,46 +67,30 @@ public class ActivityChat extends BaseActivity {
     TextView headerTitle;
     @BindView(R.id.et_message)
     EditText etMessage;
+    @BindView(R.id.btn_send)
+    Button btnSend;
     @BindView(R.id.rv_listview)
     RecyclerView mRecyclerView;
-    /**
-     * 聊天界面适配器
-     */
     private AdapterChatRecyclerView adapterChatRceyclerView;
-    /**
-     * mqtt消息列表
-     */
     private List<HrMqttMessage> messageLists = new ArrayList<>();
-    /**
-     * mqtt帮助类
-     */
     private MqttHelper mqttHelper;
-    /**
-     * mqtt客户端
-     */
     private MqttAndroidClient mqttAndroidClient;
-    /**
-     * 订阅的主题
-     */
-    private String subscriptionTopic = "";
+    final String subscriptionTopic = "369";
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                // 更新列表
                 case APPConstants.UPDATE_RECYCLEVIEW:
                     Bundle bundle = msg.getData();
                     HrMqttMessage hrMqttMessage = new HrMqttMessage();
-                    hrMqttMessage.setText("Message Arreved: " + " : " + bundle.get("data"));
+                    hrMqttMessage.setText("Message Arreved: " + subscriptionTopic + " : " + bundle.get("data"));
                     hrMqttMessage.setType(APPConstants.TYPE_LEFT_TEXT);
-                    hrMqttMessage.setTime(TimeHelper.getSystemTime());
                     messageLists.add(hrMqttMessage);
                     adapterChatRceyclerView.notifyDataSetChanged();
                     mRecyclerView.smoothScrollToPosition(messageLists.size());
                     break;
-                // 更新列表  - -图片
-                case APPConstants.UPDATE_RECYCLEVIEW_IMG:
+                case 2:
                     Bundle bundle1 = msg.getData();
                     messageLists.add((HrMqttMessage) bundle1.getSerializable("data"));
                     adapterChatRceyclerView.notifyDataSetChanged();
@@ -125,49 +101,25 @@ public class ActivityChat extends BaseActivity {
             }
         }
     };
-    /**
-     * 阿里云oss
-     */
+
     private OSS oss;
-    /**
-     * 登录返回结果
-     */
     private LoginResultData loginResultData;
-    /**
-     * 初始化数据
-     */
-    private InitiaDataResult initiaDataResult;
-    /**
-     * oss 登录参数
-     */
     private OssLoginCredencial ossLoginCredencial;
-    /**
-     * 图片选择返回RESULT
-     */
     private static final int RESULT_LOAD_IMAGE = 1;
-    /**
-     * 图片路径
-     */
     private String mPicturePath = "";
-    /**
-     * 用户简要信息
-     */
     private UserSimpleInfo userSimpleInfo;
-    /**
-     * 用户主题
-     */
-    private String topic = "";
-    /**
-     * 主题列表
-     */
-    private List<KeyValue> keyValues = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
-        initDatas();
+
+        userSimpleInfo = (UserSimpleInfo) getIntent().getSerializableExtra("userSimpleInfo");
+        mqttHelper = MqttHelper.getInstance(getActivity());
+        mqttAndroidClient = mqttHelper.getMqttAndroidClient();
+        loginResultData = UserUtil.getUser(getActivity());
+        ossLoginCredencial = loginResultData.getOssCredencial();
         initViews();
         initOss();
     }
@@ -181,16 +133,14 @@ public class ActivityChat extends BaseActivity {
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        // 添加分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(adapterChatRceyclerView);
 
         try {
-            // 订阅主题
-            mqttAndroidClient.subscribe("/Im/"+subscriptionTopic, 0, new IMqttMessageListener() {
+            mqttAndroidClient.subscribe(subscriptionTopic, 0, new IMqttMessageListener() {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    // message Arrived! 收到消息
+                    // message Arrived!
                     Log.e("Chat messageArrived", "Message: " + topic + " : " + new String(message.getPayload()));
                     Message message1 = new Message();
                     message1.what = APPConstants.UPDATE_RECYCLEVIEW;
@@ -206,34 +156,6 @@ public class ActivityChat extends BaseActivity {
     }
 
     /**
-     * 初始化数据
-     */
-    public void initDatas() {
-        // 获取用户简要信息
-        userSimpleInfo = (UserSimpleInfo) getIntent().getSerializableExtra("userSimpleInfo");
-        // mqtt帮助类
-        mqttHelper = MqttHelper.getInstance(getActivity());
-        // mqtt客户端
-        mqttAndroidClient = mqttHelper.getMqttAndroidClient();
-        // 登录返回结果数据
-        loginResultData = UserUtil.getUser(getActivity());
-        // oss 登录参数
-        ossLoginCredencial = loginResultData.getOssCredencial();
-        // 初始化数据
-        initiaDataResult = InitiadataUtil.getInitiadata(getActivity());
-        // 订阅的主题
-        subscriptionTopic = initiaDataResult.getData().getSelfTopic();
-        // 好友的主题集合
-        keyValues = initiaDataResult.getData().getAllTopic();
-        // 获取好友的主题
-        for (KeyValue keyValue : keyValues) {
-            if (keyValue.getKey().equalsIgnoreCase(userSimpleInfo.getId())) {
-                topic = keyValue.getValue();
-            }
-        }
-    }
-
-    /**
      * 初始化oss
      */
     public void initOss() {
@@ -241,45 +163,28 @@ public class ActivityChat extends BaseActivity {
         oss = new OSSClient(getApplicationContext(), ossLoginCredencial.getHost(), credentialProvider);
     }
 
-    @OnClick({R.id.btn_send_text, R.id.btn_send_img, R.id.btn_send_topic})
+    @OnClick({R.id.btn_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            // 发送文字消息
-            case R.id.btn_send_text:
+            case R.id.btn_send:
                 HrMqttMessage hrMqttMessage = new HrMqttMessage();
                 hrMqttMessage.setText(etMessage.getText().toString());
                 hrMqttMessage.setType(APPConstants.TYPE_RIGHT_TEXT);
-                hrMqttMessage.setTime(TimeHelper.getSystemTime());
-                hrMqttMessage.setContent(etMessage.getText().toString());
-                hrMqttMessage.setMessageType(1);
                 messageLists.add(hrMqttMessage);
                 adapterChatRceyclerView.notifyDataSetChanged();
                 mRecyclerView.smoothScrollToPosition(messageLists.size());
-                mqttHelper.publishMessage(GsonHelper.getGson().toJson(hrMqttMessage), "/Im/"+topic);
-                break;
-            case R.id.btn_send_img:
-                // 发送图片消息
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                //传文件
+                mqttHelper.publishMessage(etMessage.getText().toString());
+
+//                // 传图片
+//                Intent i = new Intent(
+//                        Intent.ACTION_PICK,
+//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                // 传文件
 //                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
 //                i.setType("video/*;image/*");
 //                i.addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-                break;
-            case R.id.btn_send_topic:
-                UserStateInfo userStateInfo = new UserStateInfo();
-                userStateInfo.setState(1);
-                userStateInfo.setTopic(initiaDataResult.getData().getSelfTopic());
-                HrMqttMessage hrMqttMessage1 = new HrMqttMessage();
-//                hrMqttMessage1.setText(etMessage.getText().toString());
-//                hrMqttMessage1.setType(APPConstants.TYPE_RIGHT_TEXT);
-                hrMqttMessage1.setTime(TimeHelper.getSystemTime());
-                hrMqttMessage1.setMessageType(23);
-                hrMqttMessage1.setContent(GsonHelper.getGson().toJson(userStateInfo));
-                mqttHelper.publishMessage(GsonHelper.getGson().toJson(hrMqttMessage1), "/Im/"+topic);
+//                startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
             default:
                 break;
@@ -365,21 +270,25 @@ public class ActivityChat extends BaseActivity {
 //                    options.inSampleSize = calculateInSampleSize(options, 240, 240);
 //                    options.inJustDecodeBounds = false;
 
-                    // 通过下载outputStream获取bitmap
                     Bitmap bitmap = BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.toByteArray().length);
-                    // 构造mqtt消息
+
                     HrMqttMessage hrMqttMessage = new HrMqttMessage();
                     hrMqttMessage.setText(etMessage.getText().toString());
                     hrMqttMessage.setBitmap(bitmap);
                     hrMqttMessage.setType(APPConstants.TYPE_LEFT_IMAGE);
-                    hrMqttMessage.setTime(TimeHelper.getSystemTime());
-                    // 通过hangdler发送消息处理
+
                     Message message1 = new Message();
-                    message1.what = APPConstants.UPDATE_RECYCLEVIEW_IMG;
+                    message1.what = 2;
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("data", hrMqttMessage);
                     message1.setData(bundle);
                     handler.sendMessage(message1);
+
+//                    messageLists.add(hrMqttMessage);
+//                    adapterChatRceyclerView.notifyDataSetChanged();
+//                    mRecyclerView.smoothScrollToPosition(messageLists.size());
+//                    mqttHelper.publishMessage(etMessage.getText().toString());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -430,11 +339,9 @@ public class ActivityChat extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // 数据不为null，并且requestCode==RESULT_LOAD_IMAGE
+
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            // 获取所选图片的uri
             Uri selectedImage = data.getData();
-            // 文件路径
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
@@ -450,12 +357,11 @@ public class ActivityChat extends BaseActivity {
             ContentResolver cr = this.getContentResolver();
             try {
                 Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(selectedImage));
-                // 构造mqtt消息
+
                 HrMqttMessage hrMqttMessage = new HrMqttMessage();
                 hrMqttMessage.setText(etMessage.getText().toString());
                 hrMqttMessage.setBitmap(bitmap);
                 hrMqttMessage.setType(APPConstants.TYPE_RIGHT_IMAGE);
-                hrMqttMessage.setTime(TimeHelper.getSystemTime());
                 messageLists.add(hrMqttMessage);
                 adapterChatRceyclerView.notifyDataSetChanged();
                 mRecyclerView.smoothScrollToPosition(messageLists.size());
@@ -466,5 +372,4 @@ public class ActivityChat extends BaseActivity {
             putObject();
         }
     }
-
 }

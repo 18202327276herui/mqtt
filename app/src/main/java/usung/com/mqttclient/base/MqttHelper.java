@@ -38,14 +38,29 @@ public class MqttHelper {
     MqttAndroidClient mqttAndroidClient;
     //    final String serverUri = "tcp://iot.eclipse.org:1883";
     final String serverUri = "ssl://192.168.0.61:8883";
-    String clientId = "369";
-    final String subscriptionTopic = "369";
-    final String publishTopic = "369";
+    private String clientId = "";
+    private String subscriptionTopic = "";
+    //    final String publishTopic = "369";
     String publishMessage = "Hello";
 
     public MqttHelper(Context context) {
         this.context = context;
-        initMqtt();
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getSubscriptionTopic() {
+        return subscriptionTopic;
+    }
+
+    public void setSubscriptionTopic(String subscriptionTopic) {
+        this.subscriptionTopic = subscriptionTopic;
     }
 
     public static MqttHelper getInstance(Context context) {
@@ -140,7 +155,7 @@ public class MqttHelper {
      */
     public void subscribeToTopic() {
         try {
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
+            mqttAndroidClient.subscribe("/Im/"+subscriptionTopic, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     addToHistory("Subscribed!");
@@ -169,11 +184,11 @@ public class MqttHelper {
     /**
      * 发送消息
      */
-    public void publishMessage(String publishMessage) {
+    public void publishMessage(String publishMessage, String topic) {
         try {
             MqttMessage message = new MqttMessage();
             message.setPayload(publishMessage.getBytes());
-            mqttAndroidClient.publish(publishTopic, message);
+            mqttAndroidClient.publish(topic, message);
             addToHistory("Message Published");
             if (!mqttAndroidClient.isConnected()) {
                 addToHistory(mqttAndroidClient.getBufferedMessageCount() + " messages in buffer.");

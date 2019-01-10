@@ -59,13 +59,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     TextView txtMy;
     @BindView(R.id.vp_view_pager)
     ViewPager vpViewPager;
-    /**
-     * 登录结果数据
-     */
+    private AdapterMainRecyclerView adapterMainRceyclerView;
     private LoginResultData loginResultData;
-    /**
-     * 本地数据库
-     */
     private SharePreferenceUtil spUtil;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -76,6 +71,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ButterKnife.bind(this);
         initViews();
         initData();
+        MqttHelper.getInstance(getActivity());
     }
 
     @Override
@@ -90,7 +86,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void initData() {
         showLoading("");
-        // 初始化参数
         HttpRequestParameterBase httpRequestParameterBase = new HttpRequestParameterBase();
         httpRequestParameterBase.setSelfId(spUtil.getPreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_NAME));
         httpRequestParameterBase.setToken(loginResultData.getToken());
@@ -101,13 +96,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onResponse(InitiaDataResult initiaDataResult) {
-                        // 请求成功
                         if (initiaDataResult != null && initiaDataResult.getCode() == HttpResposeDataBase.SUCESSED) {
                             InitiadataUtil.putInitiadata(getActivity(), initiaDataResult);
-                            MqttHelper mqttHelper = MqttHelper.getInstance(getActivity());
-                            mqttHelper.setClientId(loginResultData.getMqttCredencial().getClientId());
-                            mqttHelper.setSubscriptionTopic(initiaDataResult.getData().getSelfTopic());
-                            mqttHelper.initMqtt();
                         } else {
                             ToastUtil.showToast(R.string.get_initiadata_fail);
                         }
@@ -126,28 +116,22 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         fragments.add(FragmentMailList.newInstance(null));
         fragments.add(FragmentMy.newInstance(null));
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), fragments, null);
-        // 设置adapter
         vpViewPager.setAdapter(adapter);
-        // 添加页面改变事件
         vpViewPager.addOnPageChangeListener(this);
-        // 默认显示第一页
         vpViewPager.setCurrentItem(0);
     }
 
     @OnClick({R.id.rl_home, R.id.rl_message, R.id.rl_my})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            // 主页
             case R.id.rl_home:
                 setTabSelection(0);
                 vpViewPager.setCurrentItem(0, false);
                 break;
-            // 通讯录
             case R.id.rl_message:
                 setTabSelection(1);
                 vpViewPager.setCurrentItem(1, false);
                 break;
-            // 我的
             case R.id.rl_my:
                 setTabSelection(2);
                 vpViewPager.setCurrentItem(2, false);
@@ -201,7 +185,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int position) {
-        // 页面改变
         setTabSelection(position);
     }
 
