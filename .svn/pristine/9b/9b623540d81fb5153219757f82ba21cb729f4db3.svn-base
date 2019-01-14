@@ -5,27 +5,15 @@
     android:padding="@dimen/dp_10"
     android:layout_height="100dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_header_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/tv_message"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="android:hello world"
-        android:visibility="gone"/>
+        android:text="android:hello world" />
 
     <TextView
         android:id="@+id/tv_date"
@@ -42,10 +30,6 @@
         android:id="@+id/iv_img"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="@dimen/dp_10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/civ_header_img"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@mipmap/ic_launcher"/>
+        android:background="@mipmap/ic_launcher"
+        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>

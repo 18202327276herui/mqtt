@@ -106,8 +106,7 @@ public class ActivityChat extends BaseActivity {
                 case APPConstants.UPDATE_RECYCLEVIEW:
                     Bundle bundle = msg.getData();
                     HrMqttMessage hrMqttMessage = new HrMqttMessage();
-                    hrMqttMessage = GsonHelper.getGson().fromJson((String) bundle.get("data"), HrMqttMessage.class);
-                    hrMqttMessage.setText("Message Arreved: " + hrMqttMessage.getContent());
+                    hrMqttMessage.setText("Message Arreved: " + " : " + bundle.get("data"));
                     hrMqttMessage.setType(APPConstants.TYPE_LEFT_TEXT);
                     hrMqttMessage.setTime(TimeHelper.getSystemTime());
                     messageLists.add(hrMqttMessage);
@@ -188,12 +187,11 @@ public class ActivityChat extends BaseActivity {
 
         try {
             // 订阅主题
-            mqttAndroidClient.subscribe("369", 0, new IMqttMessageListener() {
+            mqttAndroidClient.subscribe("/Im/"+subscriptionTopic, 0, new IMqttMessageListener() {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     // message Arrived! 收到消息
                     Log.e("Chat messageArrived", "Message: " + topic + " : " + new String(message.getPayload()));
-
                     Message message1 = new Message();
                     message1.what = APPConstants.UPDATE_RECYCLEVIEW;
                     Bundle bundle = new Bundle();

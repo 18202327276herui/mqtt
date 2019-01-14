@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ButterKnife.bind(this);
         initViews();
         initData();
-
     }
 
     @Override

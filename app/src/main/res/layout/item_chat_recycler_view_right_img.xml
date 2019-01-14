@@ -5,6 +5,17 @@
     android:padding="@dimen/dp_10"
     android:layout_height="100dp">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_header_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
@@ -29,8 +40,10 @@
         android:id="@+id/iv_img"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_marginRight="@dimen/dp_10"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/civ_header_img"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@mipmap/ic_launcher"/>
 

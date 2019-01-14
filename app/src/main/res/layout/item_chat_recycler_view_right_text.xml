@@ -5,13 +5,28 @@
     android:padding="@dimen/dp_10"
     android:layout_height="100dp">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_header_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/img_bubble_send"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/civ_header_img"
         app:layout_constraintRight_toRightOf="parent"
         android:text="android:hello world" />
 

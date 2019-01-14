@@ -20,6 +20,7 @@
     <color name="red">#FF3030</color>
     <color name="green">#66CC00</color>
     <color name="grey">#373737</color>
+    <color name="gray5">#EBEBEB</color>
     <color name="deepnlue">#00AAFF</color>
     <!-- 一些标题颜色 -->
     <color name="color_title">#00aadd</color>
