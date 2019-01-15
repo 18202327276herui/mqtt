@@ -4,17 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/gray5"
+    android:orientation="vertical"
     tools:context="usung.com.mqttclient.ActivityChat">
 
     <include layout="@layout/page_header" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_listview"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,8 +32,8 @@
         <EditText
             android:id="@+id/et_message"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:imeOptions="actionSend"
             android:inputType="textMultiLine"
             android:singleLine="false" />
@@ -43,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="图片" />
+
         <Button
             android:id="@+id/btn_send_topic"
             android:layout_width="wrap_content"

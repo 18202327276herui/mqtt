@@ -19,6 +19,7 @@
         android:padding="@dimen/dp_10">
 
         <ImageView
+            android:id="@+id/iv_header_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_launcher" />

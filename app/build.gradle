@@ -60,7 +60,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     //结果转为基本类型所需依赖
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
-
+    // 注解
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile "org.eclipse.paho:org.eclipse.paho.client.mqttv3:${rootProject.ext.clientVersion}"
@@ -68,12 +68,18 @@ dependencies {
         //exclude module: "org.eclipse.paho.client.mqttv3"
         transitive = true
     }
+    // 面向Android的图像加载和缓存库，专注于平滑滚动
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    // 汉字转拼音
     implementation 'com.github.promeg:tinypinyin:2.0.1'
-
+    // 阿里云oss
     implementation 'com.aliyun.dpa:oss-android-sdk:+'
     // 头像
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    //下拉刷新上拉加载更多控件
+    implementation 'cn.bingoogolapple:bga-refreshlayout:1.1.8@aar'
+    // 选择图片
+    implementation 'com.jph.takephoto:takephoto_library:4.0.3'
 }
 
 configurations.compile.exclude module: 'org.eclipse.paho.client.mqttv3'

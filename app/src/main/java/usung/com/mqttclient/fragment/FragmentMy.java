@@ -4,11 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.model.TImage;
+import com.jph.takephoto.model.TResult;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.activity.ActivityBlackAndStrangerList;
 import usung.com.mqttclient.base.BaseFragment;
+import usung.com.mqttclient.base.BaseTakePhotoFragment;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
 import usung.com.mqttclient.bean.db.GetUserSimpleInfoParameter;
 import usung.com.mqttclient.bean.user.UserSimpleInfoResult;
@@ -36,7 +44,7 @@ import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_NAME_AND_PAW;
  * @date 2018/12/10
  */
 
-public class FragmentMy extends BaseFragment {
+public class FragmentMy extends BaseTakePhotoFragment {
     @BindView(R.id.header_title)
     TextView headerTitle;
     @BindView(R.id.backButton)
@@ -45,10 +53,14 @@ public class FragmentMy extends BaseFragment {
     TextView tvNick;
     @BindView(R.id.tv_number)
     TextView tvNumber;
+    @BindView(R.id.iv_header_img)
+    ImageView ivHeaderImg;
     /**
-     *  SharedPreference储存
+     * SharedPreference储存
      */
     private SharePreferenceUtil spUtil;
+    private TakePhoto takePhoto;
+    private BottomSheetDialog dialog;
 
     public static FragmentMy newInstance(Bundle bundle) {
         FragmentMy f = new FragmentMy();
@@ -77,8 +89,47 @@ public class FragmentMy extends BaseFragment {
     protected void initViews() {
         super.initViews();
 
+        takePhoto = getTakePhoto();
         headerTitle.setText("我的");
         backButtonView.setVisibility(View.GONE);
+        dialog = new BottomSheetDialog(getActivity());
+        View view1 = getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment_my_choose_photo, null);
+        TextView tvPhotograph = (TextView) view1.findViewById(R.id.tv_photograph);
+        TextView tvFromAlbum = (TextView) view1.findViewById(R.id.tv_from_album);
+        TextView tvCancel = (TextView) view1.findViewById(R.id.tv_cancel);
+        dialog.setContentView(view1);
+
+        tvPhotograph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //相机获取照片并剪裁
+                dialog.dismiss();
+                takePhoto.onPickFromCaptureWithCrop(getUri(), getCropOptions());
+            }
+        });
+
+        tvFromAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //相册获取照片并剪裁
+                dialog.dismiss();
+                takePhoto.onPickFromGalleryWithCrop(getUri(), getCropOptions());
+            }
+        });
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        TImage tImage = result.getImage();
+        String compressPath = tImage.getCompressPath();
+        Glide.with(this).load(compressPath).asBitmap().placeholder(R.mipmap.img_my_head_default).into(ivHeaderImg);
     }
 
     /**
@@ -111,16 +162,21 @@ public class FragmentMy extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.ll_black_list, R.id.ll_stranger_list})
+    @OnClick({R.id.ll_black_list, R.id.ll_stranger_list, R.id.iv_header_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            //黑名单
+            // 黑名单
             case R.id.ll_black_list:
                 startActivity(new Intent(getActivity(), ActivityBlackAndStrangerList.class));
                 break;
-            //陌生人
+            // 陌生人
             case R.id.ll_stranger_list:
                 startActivity(new Intent(getActivity(), ActivityBlackAndStrangerList.class));
+                break;
+            // 头像
+            case R.id.iv_header_img:
+                setCompressConfig(takePhoto);
+                dialog.show();
                 break;
             default:
                 break;

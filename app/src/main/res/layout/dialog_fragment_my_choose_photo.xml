@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/shade_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_margin="@dimen/dp_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corner_white_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_photograph"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:gravity="center"
+            android:text="@string/photograph"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_split_line"/>
+
+        <TextView
+            android:id="@+id/tv_from_album"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:gravity="center"
+            android:text="@string/from_album"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:background="@drawable/corner_white_5"
+        android:layout_margin="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:gravity="center"
+        android:text="取消"/>
+</LinearLayout>

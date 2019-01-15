@@ -47,10 +47,14 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 import usung.com.mqttclient.adapter.AdapterChatRecyclerView;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
@@ -70,13 +74,16 @@ import usung.com.mqttclient.utils.UserUtil;
 /**
  * @author herui
  */
-public class ActivityChat extends BaseActivity {
+public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
     @BindView(R.id.header_title)
     TextView headerTitle;
     @BindView(R.id.et_message)
     EditText etMessage;
     @BindView(R.id.rv_listview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.refreshLayout)
+    BGARefreshLayout mRefreshLayou;
+
     /**
      * 聊天界面适配器
      */
@@ -171,6 +178,7 @@ public class ActivityChat extends BaseActivity {
         initDatas();
         initViews();
         initOss();
+        initRefreshLayout();
     }
 
     @Override
@@ -243,6 +251,18 @@ public class ActivityChat extends BaseActivity {
         oss = new OSSClient(getApplicationContext(), ossLoginCredencial.getHost(), credentialProvider);
     }
 
+    /**
+     *  初始化下拉刷新
+     */
+    public void initRefreshLayout() {
+        // 设置代理
+        mRefreshLayou.setDelegate(this);
+        // 设置下拉刷新和上拉加载更多的风格
+        BGARefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, false);
+        // 设置下拉刷新和上拉加载更多的风格
+        mRefreshLayou.setRefreshViewHolder(refreshViewHolder);
+    }
+
     @OnClick({R.id.btn_send_text, R.id.btn_send_img, R.id.btn_send_topic})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -254,6 +274,11 @@ public class ActivityChat extends BaseActivity {
                 hrMqttMessage.setTime(TimeHelper.getSystemTime());
                 hrMqttMessage.setContent(etMessage.getText().toString());
                 hrMqttMessage.setMessageType(1);
+                hrMqttMessage.setGroup(false);
+                hrMqttMessage.setId(UUID.randomUUID().toString());
+                hrMqttMessage.setSession(userSimpleInfo.getId());
+                hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+                hrMqttMessage.setRecipientId(userSimpleInfo.getId());
                 messageLists.add(hrMqttMessage);
                 adapterChatRceyclerView.notifyDataSetChanged();
                 mRecyclerView.smoothScrollToPosition(messageLists.size());
@@ -469,4 +494,18 @@ public class ActivityChat extends BaseActivity {
         }
     }
 
+    /*================== 下拉刷新、上拉加载更多监听 begin ==================*/
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+//        loadHistoryMsgFromRemote();
+        mRefreshLayou.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
+    }
+
+
+    /*================== 下拉刷新、上拉加载更多监听 end ==================*/
 }
