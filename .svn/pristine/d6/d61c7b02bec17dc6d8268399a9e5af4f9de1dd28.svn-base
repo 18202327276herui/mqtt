@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.widget.DividerItemDecoration;
@@ -39,8 +38,6 @@ import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -117,7 +114,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                     Bundle bundle = msg.getData();
                     HrMqttMessage hrMqttMessage = new HrMqttMessage();
                     hrMqttMessage = GsonHelper.getGson().fromJson((String) bundle.get("data"), HrMqttMessage.class);
-                    hrMqttMessage.setContent("Message Arreved: " + hrMqttMessage.getContent());
+                    hrMqttMessage.setText("Message Arreved: " + hrMqttMessage.getContent());
                     hrMqttMessage.setType(APPConstants.TYPE_LEFT_TEXT);
                     hrMqttMessage.setTime(TimeHelper.getSystemTime());
                     messageLists.add(hrMqttMessage);
@@ -272,17 +269,16 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
             // 发送文字消息
             case R.id.btn_send_text:
                 HrMqttMessage hrMqttMessage = new HrMqttMessage();
-                hrMqttMessage.setContent(etMessage.getText().toString());
+                hrMqttMessage.setText(etMessage.getText().toString());
                 hrMqttMessage.setType(APPConstants.TYPE_RIGHT_TEXT);
                 hrMqttMessage.setTime(TimeHelper.getSystemTime());
                 hrMqttMessage.setContent(etMessage.getText().toString());
                 hrMqttMessage.setMessageType(0);
                 hrMqttMessage.setGroup(false);
-//                hrMqttMessage.setId(UUID.randomUUID().toString());
+                hrMqttMessage.setId(UUID.randomUUID().toString());
                 hrMqttMessage.setSession(userSimpleInfo.getId());
                 hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
                 hrMqttMessage.setRecipientId(userSimpleInfo.getId());
-                List<HrMqttMessage>  hrMqttMessageList = LitePal.findAll(HrMqttMessage.class);
                 messageLists.add(hrMqttMessage);
                 adapterChatRceyclerView.notifyDataSetChanged();
                 mRecyclerView.smoothScrollToPosition(messageLists.size());
@@ -305,6 +301,8 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 userStateInfo.setState(1);
                 userStateInfo.setTopic(initiaDataResult.getData().getSelfTopic());
                 HrMqttMessage hrMqttMessage1 = new HrMqttMessage();
+//                hrMqttMessage1.setText(etMessage.getText().toString());
+//                hrMqttMessage1.setType(APPConstants.TYPE_RIGHT_TEXT);
                 hrMqttMessage1.setTime(TimeHelper.getSystemTime());
                 hrMqttMessage1.setMessageType(23);
                 hrMqttMessage1.setContent(GsonHelper.getGson().toJson(userStateInfo));
@@ -398,7 +396,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                     Bitmap bitmap = BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.toByteArray().length);
                     // 构造mqtt消息
                     HrMqttMessage hrMqttMessage = new HrMqttMessage();
-                    hrMqttMessage.setContent(etMessage.getText().toString());
+                    hrMqttMessage.setText(etMessage.getText().toString());
                     hrMqttMessage.setBitmap(bitmap);
                     hrMqttMessage.setType(APPConstants.TYPE_LEFT_IMAGE);
                     hrMqttMessage.setTime(TimeHelper.getSystemTime());
@@ -481,7 +479,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(selectedImage));
                 // 构造mqtt消息
                 HrMqttMessage hrMqttMessage = new HrMqttMessage();
-                hrMqttMessage.setContent(etMessage.getText().toString());
+                hrMqttMessage.setText(etMessage.getText().toString());
                 hrMqttMessage.setBitmap(bitmap);
                 hrMqttMessage.setType(APPConstants.TYPE_RIGHT_IMAGE);
                 hrMqttMessage.setTime(TimeHelper.getSystemTime());

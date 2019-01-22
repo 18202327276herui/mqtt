@@ -3,6 +3,7 @@ package usung.com.mqttclient.bean;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import usung.com.mqttclient.bean.db.Message;
 
@@ -13,10 +14,6 @@ import usung.com.mqttclient.bean.db.Message;
  */
 
 public class HrMqttMessage extends Message implements Serializable {
-    /**
-     *  消息文本
-     */
-    private String text;
     /**
      *  消息类型（发送==1，接收==2）
      */
@@ -29,14 +26,10 @@ public class HrMqttMessage extends Message implements Serializable {
      * 发送的图片
      */
     private Bitmap bitmap;
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+//    /**
+//     *  发送时间
+//     */
+//    private Date sendDate;
 
     public int getType() {
         return type;
@@ -61,4 +54,12 @@ public class HrMqttMessage extends Message implements Serializable {
     public void setIcon(Bitmap icon) {
         this.icon = icon;
     }
+
+//    public Date getSendDate() {
+//        return sendDate;
+//    }
+//
+//    public void setSendDate(Date sendDate) {
+//        this.sendDate = sendDate;
+//    }
 }

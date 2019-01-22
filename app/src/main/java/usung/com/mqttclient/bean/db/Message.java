@@ -1,5 +1,7 @@
 package usung.com.mqttclient.bean.db;
 
+import org.litepal.crud.LitePalSupport;
+
 import java.io.Serializable;
 
 /**
@@ -22,7 +24,7 @@ public class Message implements Serializable {
     /// <summary>
     /// 消息Id 唯一 使用 Guid { get; set; } = Guid.NewGuid().ToString();
     /// </summary>
-    public String Id;
+    public String MessageId ;
     /// <summary>
     /// 标识消息所属的会话 ，有 3种
     /// 1.对于群消息，session即为群id
@@ -65,14 +67,6 @@ public class Message implements Serializable {
         IsGroup = group;
     }
 
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
-
     public String getSession() {
         return Session;
     }
@@ -111,5 +105,13 @@ public class Message implements Serializable {
 
     public void setTime(String time) {
         Time = time;
+    }
+
+    public String getMessageId() {
+        return MessageId;
+    }
+
+    public void setMessageId(String messageId) {
+        MessageId = messageId;
     }
 }

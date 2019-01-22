@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_background">
+
+    <include layout="@layout/page_header" />
+
+    <!--个人信息-->
+    <LinearLayout
+        android:id="@+id/ll_my_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/page_top"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10">
+
+        <ImageView
+            android:id="@+id/iv_header_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/tv_nick"
+                style="@style/font16_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试" />
+
+            <TextView
+                android:id="@+id/tv_number"
+                style="@style/font14_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="测试号码：369" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/gray_arrow_right"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <!--信息-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintTop_toBottomOf="@id/ll_my_info"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/img_my_setting"/>
+
+        <TextView
+            style="@style/font16_black"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:drawableRight="@mipmap/gray_arrow_right"
+            android:text="设置"/>
+
+    </LinearLayout>
+    <!--黑名单-->
+    <LinearLayout
+        android:id="@+id/ll_black_list"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintTop_toBottomOf="@id/ll_my_info"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/img_my_setting"/>
+
+        <TextView
+            style="@style/font16_black"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:drawableRight="@mipmap/gray_arrow_right"
+            android:text="黑名单"/>
+
+    </LinearLayout>
+    <!--陌生人-->
+    <LinearLayout
+        android:id="@+id/ll_stranger_list"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/ll_black_list"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/img_my_setting"/>
+
+        <TextView
+            style="@style/font16_black"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:drawableRight="@mipmap/gray_arrow_right"
+            android:text="陌生人"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -80,6 +80,8 @@ dependencies {
     implementation 'cn.bingoogolapple:bga-refreshlayout:1.1.8@aar'
     // 选择图片
     implementation 'com.jph.takephoto:takephoto_library:4.0.3'
+    // 数据库
+    implementation 'org.litepal.android:java:3.0.0'
 }
 
 configurations.compile.exclude module: 'org.eclipse.paho.client.mqttv3'
