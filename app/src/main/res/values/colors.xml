@@ -117,4 +117,12 @@
 
     <drawable name="charIndexColor">#33000000</drawable>
     <color name="charIndexColor">#33000000</color>
+    <color name="green0">#45C01A</color>
+    <color name="green1">#45C01A</color>
+    <color name="green2">#A3DEA3</color>
+    <color name="green3">#1AAD19</color>
+    <color name="gray1">#7e7e7e</color>
+    <color name="gray6">#FBFBFB</color>
+    <color name="gray8">#D9D9D9</color>
+    <color name="line">#D2D2D2</color>
 </resources>

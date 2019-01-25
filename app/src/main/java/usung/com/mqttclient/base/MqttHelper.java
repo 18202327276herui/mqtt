@@ -155,7 +155,7 @@ public class MqttHelper {
      */
     public void subscribeToTopic() {
         try {
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
+            mqttAndroidClient.subscribe("/Im/" +subscriptionTopic, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     addToHistory("Subscribed!");
@@ -167,7 +167,7 @@ public class MqttHelper {
                 }
             });
 
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, new IMqttMessageListener() {
+            mqttAndroidClient.subscribe("/Im/" +subscriptionTopic, 0, new IMqttMessageListener() {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     // message Arrived!

@@ -31,4 +31,9 @@ public class APPConstants {
      * 密码
      */
     public static final String SHARE_LOGIN_PWD = "pwd";
+
+    /**
+     * 图片选择返回RESULT
+     */
+    public static final int RESULT_LOAD_IMAGE = 1;
 }

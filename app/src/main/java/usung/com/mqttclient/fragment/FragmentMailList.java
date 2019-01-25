@@ -22,7 +22,6 @@ import butterknife.OnClick;
 import usung.com.mqttclient.ActivityChat;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.activity.ActivitySearch;
-import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.adapter.ContactAdapter;
 import usung.com.mqttclient.base.BaseFragment;
 import usung.com.mqttclient.bean.db.Contact;
@@ -141,7 +140,7 @@ public class FragmentMailList extends BaseFragment {
         adapter.setListener(new ContactAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, UserSimpleInfo userSimpleInfo) {
-                startActivity(new Intent(getActivity(), ActivityChat.class).putExtra("userSimpleInfo", userSimpleInfo));
+                startActivity(new Intent(getActivity(), ActivityChat.class).putExtra("recipientId", userSimpleInfo.getId()));
             }
         });
     }

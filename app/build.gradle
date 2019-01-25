@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "usung.com.mqttclient"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -68,6 +68,7 @@ dependencies {
         //exclude module: "org.eclipse.paho.client.mqttv3"
         transitive = true
     }
+
     // 面向Android的图像加载和缓存库，专注于平滑滚动
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     // 汉字转拼音
@@ -82,6 +83,9 @@ dependencies {
     implementation 'com.jph.takephoto:takephoto_library:4.0.3'
     // 数据库
     implementation 'org.litepal.android:java:3.0.0'
+    // emoji icon
+    implementation 'io.github.rockerhieu:emojicon:1.4.0'
+    implementation 'io.github.rockerhieu:emojiconize:1.0.0'
 }
 
 configurations.compile.exclude module: 'org.eclipse.paho.client.mqttv3'

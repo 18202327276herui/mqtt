@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         ButterKnife.bind(this);
         initViews();
         initData();
-
     }
 
     @Override
@@ -110,6 +109,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             mqttHelper.setClientId(loginResultData.getMqttCredencial().getClientId());
                             mqttHelper.setSubscriptionTopic(initiaDataResult.getData().getSelfTopic());
                             mqttHelper.initMqtt();
+                            sendOnlineMqttMessage();
                         } else {
                             ToastUtil.showToast(R.string.get_initiadata_fail);
                         }
@@ -117,6 +117,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         dismissLoading();
                     }
                 });
+    }
+
+    /**
+     *  上线给好友发送上线消息
+     */
+    public void sendOnlineMqttMessage() {
+
     }
 
     /**

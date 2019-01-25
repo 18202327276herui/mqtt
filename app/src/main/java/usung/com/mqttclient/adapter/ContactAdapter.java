@@ -44,7 +44,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
     public void onBindViewHolder(ContactHolder holder, int position) {
         Contact contact = cnPinyinList.get(position).data;
         holder.iv_header.setImageResource(contact.imgUrl);
-        holder.tv_name.setText(contact.name);
+        holder.tv_name.setText(contact.userSimpleInfo.getId());
         holder.ll_item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

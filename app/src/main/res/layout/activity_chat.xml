@@ -10,6 +10,7 @@
 
     <include layout="@layout/page_header" />
 
+    <!--消息区-->
     <cn.bingoogolapple.refreshlayout.BGARefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:layout_weight="1" />
 
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
-
+    <!--底部输入框-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,24 +41,71 @@
             android:singleLine="false" />
 
         <Button
-            android:id="@+id/btn_send_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="发送文字" />
-
-        <Button
-            android:id="@+id/btn_send_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="图片" />
-
-        <Button
             android:id="@+id/btn_send_topic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="topic" />
+            android:text="topic"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/ivEmo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:src="@mipmap/ic_cheat_emo" />
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:src="@mipmap/ic_cheat_add" />
+
+        <Button
+            android:id="@+id/btn_send"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="43dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/shape_btn_send"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:visibility="gone" />
     </LinearLayout>
+    <!--功能区-->
+    <FrameLayout
+        android:id="@+id/flBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <!--<io.github.rockerhieu.emojicon.EmojiconsView-->
+            <!--android:id="@+id/emojicons_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:visibility="gone"/>-->
+
+        <LinearLayout
+            android:id="@+id/llButtomFunc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View style="@style/Line1" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vpFunc"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <usung.com.mqttclient.widget.DotView
+                android:id="@+id/dv"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
