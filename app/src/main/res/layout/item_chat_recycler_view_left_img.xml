@@ -46,6 +46,5 @@
         android:layout_marginLeft="@dimen/dp_10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/civ_header_img"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@mipmap/ic_launcher"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 </android.support.constraint.ConstraintLayout>

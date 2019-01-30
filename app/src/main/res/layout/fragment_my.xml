@@ -136,4 +136,31 @@
             android:text="陌生人"/>
 
     </LinearLayout>
+    <!--清空聊天记录-->
+    <LinearLayout
+        android:id="@+id/ll_clear_chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/ll_stranger_list"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/img_my_setting"/>
+
+        <TextView
+            style="@style/font16_black"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:drawableRight="@mipmap/gray_arrow_right"
+            android:text="清空聊天记录"/>
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

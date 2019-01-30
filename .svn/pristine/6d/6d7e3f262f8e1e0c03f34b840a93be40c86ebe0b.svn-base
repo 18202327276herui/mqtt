@@ -189,7 +189,7 @@ public class MqttHelper {
             MqttMessage message = new MqttMessage();
             message.setPayload(publishMessage.getBytes());
             mqttAndroidClient.publish(topic, message);
-//            addToHistory("Message Published");
+            addToHistory("Message Published");
             if (!mqttAndroidClient.isConnected()) {
                 addToHistory(mqttAndroidClient.getBufferedMessageCount() + " messages in buffer.");
             }

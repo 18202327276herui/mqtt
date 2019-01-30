@@ -44,7 +44,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/civ_header_img"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@mipmap/ic_launcher"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

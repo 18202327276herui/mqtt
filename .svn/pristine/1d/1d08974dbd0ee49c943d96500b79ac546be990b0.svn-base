@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--竖线样式-->
+    <style name="vertical_line_style">
+        <item name="android:layout_width">@dimen/line_height_05</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/color_split_line</item>
+    </style>
+
+    <!--横线样式-->
+    <style name="horizontal_line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line_height_05</item>
+        <item name="android:background">@color/color_split_line</item>
+    </style>
+
+    <style name="placeholder_view">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <!-- ******************* 字体样式 end **********************-->
+    <!-- 黑色字体 -->
+    <style name="font12_black">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="font14_black">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="font16_black">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="font18_black">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="font20_black">
+        <item name="android:textSize">@dimen/text_fontsize_20</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="font24_black">
+        <item name="android:textSize">@dimen/text_fontsize_24</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- 白色字体 -->
+    <style name="font12_white">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="font13_white">
+        <item name="android:textSize">@dimen/text_fontsize_13</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="font14_white">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="font16_white">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="font18_white">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="font24_white">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="font40_white">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- 灰色字体（提示字体hint） -->
+    <!--<style name="font12_grey">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="font14_grey">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="font16_grey">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="font18_grey">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>-->
+
+    <!-- 深灰色字体 -->
+    <style name="font12_deep_grey">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/color_grey_text</item>
+    </style>
+
+    <style name="font14_deep_grey">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/color_grey_text</item>
+    </style>
+
+    <style name="font16_deep_grey">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/color_grey_text</item>
+    </style>
+
+    <style name="font18_deep_grey">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/color_grey_text</item>
+    </style>
+
+    <!-- 蓝色字体 -->
+    <style name="font12_blue">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="font14_blue">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="font16_blue">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="font18_blue">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+    <!--&lt;!&ndash; 浅灰色 &ndash;&gt;
+    <style name="font12_light_grey">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/gray_color_hint</item>
+    </style>
+    <style name="font14_light_grey">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/gray_color_hint</item>
+    </style>
+    &lt;!&ndash; 中灰色字体 &ndash;&gt;
+    <style name="font12_mid_grey">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/mid_grey</item>
+    </style>
+
+    <style name="font14_mid_grey">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/mid_grey</item>
+    </style>
+
+    <style name="font16_mid_grey">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/mid_grey</item>
+    </style>
+
+    <style name="font18_mid_grey">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/mid_grey</item>
+    </style>&ndash;&gt;-->
+    <!-- 一些标题颜色 -->
+    <style name="font11_title">
+        <item name="android:textSize">@dimen/text_fontsize_11</item>
+        <item name="android:textColor">@color/color_title</item>
+    </style>
+
+    <style name="font12_title">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/color_title</item>
+    </style>
+
+    <style name="font13_title">
+        <item name="android:textSize">@dimen/text_fontsize_13</item>
+        <item name="android:textColor">@color/color_title</item>
+    </style>
+
+    <style name="font14_title">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/color_title</item>
+    </style>
+
+    <style name="font15_title">
+        <item name="android:textSize">@dimen/text_fontsize_15</item>
+        <item name="android:textColor">@color/color_title</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="font16_title">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/color_title</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="font18_title">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/color_title</item>
+    </style>
+
+    <style name="font22_title">
+        <item name="android:textSize">@dimen/text_fontsize_22</item>
+        <item name="android:textColor">@color/color_title</item>
+    </style>
+
+    <!-- 红色字体 -->
+    <style name="font12_red">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="font13_red">
+        <item name="android:textSize">@dimen/text_fontsize_13</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="font14_red">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="font15_red">
+        <item name="android:textSize">@dimen/text_fontsize_15</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="font16_red">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="font18_red">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="font22_red">
+        <item name="android:textSize">@dimen/text_fontsize_22</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="font40_red">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <!-- 橙色字体 -->
+    <!--<style name="font12_warning_color">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/color_warning_text</item>
+    </style>
+
+    <style name="font14_warning_color">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/color_warning_text</item>
+    </style>
+
+    <style name="font16_warning_color">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/color_warning_text</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="font18_warning_color">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/color_warning_text</item>
+    </style>
+
+    &lt;!&ndash; 橘色字体 &ndash;&gt;
+    <style name="font12_orange">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/btn_orange</item>
+    </style>
+
+    <style name="font14_orange">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/btn_orange</item>
+    </style>
+
+    <style name="font16_orange">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/btn_orange</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="font18_orange">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/btn_orange</item>
+    </style>
+
+    &lt;!&ndash; 主题蓝色字体 &ndash;&gt;
+    <style name="font12_blue_theme">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/blue_color_theme</item>
+    </style>
+
+    <style name="font14_blue_theme">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/blue_color_theme</item>
+    </style>
+
+    <style name="font16_blue_theme">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/blue_color_theme</item>
+    </style>
+
+    <style name="font18_blue_theme">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/blue_color_theme</item>
+    </style>
+
+    <style name="font20_blue_theme">
+        <item name="android:textSize">@dimen/text_fontsize_20</item>
+        <item name="android:textColor">@color/blue_color_theme</item>
+    </style>
+
+    <style name="font24_blue_theme">
+        <item name="android:textSize">@dimen/text_fontsize_24</item>
+        <item name="android:textColor">@color/blue_color_theme</item>
+    </style>
+    &lt;!&ndash; 绿色色字体 &ndash;&gt;
+    <style name="font12_green">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/mid_green</item>
+    </style>
+
+    <style name="font14_green">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/mid_green</item>
+    </style>
+
+    <style name="font16_green">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/mid_green</item>
+    </style>
+
+    <style name="font18_green">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/mid_green</item>
+    </style>
+
+    <style name="font24_green">
+        <item name="android:textSize">@dimen/text_fontsize_24</item>
+        <item name="android:textColor">@color/mid_green</item>
+    </style>
+    &lt;!&ndash; 深蓝色字体 &ndash;&gt;
+    <style name="font12_blue">
+        <item name="android:textSize">@dimen/text_fontsize_12</item>
+        <item name="android:textColor">@color/deep_blue</item>
+    </style>
+
+    <style name="font14_blue">
+        <item name="android:textSize">@dimen/text_fontsize_14</item>
+        <item name="android:textColor">@color/deep_blue</item>
+    </style>
+
+    <style name="font16_blue">
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/deep_blue</item>
+    </style>
+
+    <style name="font18_blue">
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/deep_blue</item>
+    </style>
+
+    <style name="font24_blue">
+        <item name="android:textSize">@dimen/text_fontsize_24</item>
+        <item name="android:textColor">@color/deep_blue</item>
+    </style>-->
+
+    <!-- actionbar背景样式配置 -->
+    <style name="top_bg_style">
+        <item name="android:background">@color/color_theme</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/actionbar_height</item>
+    </style>
+
+    <!-- actionbar背景透明样式配置 -->
+    <style name="top_bg_transparent_style">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/actionbar_height</item>
+    </style>
+
+    <!-- 标题样式 -->
+    <style name="page_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/actionbar_height</item>
+        <item name="android:textSize">@dimen/text_fontsize_18</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+     actionbar返回按钮
+    <style name="actionbar_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:src">@drawable/btn_back_selector</item>
+    </style>
+
+    <!-- 自定义仿IOS的AlertDialog的样式 -->
+    <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!-- 加载Dialog样式 -->
+    <style name="loadingDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否显示title -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 设置dialog的背景色 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 对话框是否有遮盖（灰色蒙层） -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!-- 背景是否模糊显示 -->
+    </style>
+
+    <!--自定义POP 样式-->
+    <style name="customPopStyle">
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">150dp</item>
+        <item name="android:layout_marginBottom">150dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <!-- ******************* Dialog 样式 end **********************-->
+
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/login_checkbox_style</item>
+        <item name="android:textSize">@dimen/text_fontsize_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- actionbar_filter样式 -->
+    <style name="PopupWindowAnimation">
+        <item name="android:windowEnterAnimation">@anim/tab_popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/tab_pophidden_anim</item>
+    </style>
+
+    <!-- ListView列表样式 -->
+    <style name="listview_style">
+        <item name="android:background">@color/white</item>
+        <item name="android:listSelector">@drawable/listview_selector</item>
+        <item name="android:divider">@color/color_split_line</item>
+        <item name="android:dividerHeight">@dimen/line_height_03</item>
+    </style>
+
+    <!--自定义POP按钮 样式-->
+    <style name="customPopBtnStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="genaralDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- 更新对话框 -->
+    <style name="button" parent="@android:style/Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:shadowColor">#FF525252</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <!--实下滑线样式-->
+    <style name="Line1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/line</item>
+    </style>
+
+    <!--聊天界面中底部功能区图片样式-->
+    <style name="FuncImg">
+        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:background">@drawable/shape_corner_rect_solid_stroke_gray</item>
+    </style>
+    <!--聊天界面中底部功能区文字样式-->
+    <style name="FuncTv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+</resources>

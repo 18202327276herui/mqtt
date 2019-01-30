@@ -1,6 +1,7 @@
 package usung.com.mqttclient.fragment;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 
+import org.litepal.LitePal;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,6 +31,7 @@ import usung.com.mqttclient.base.BaseFragment;
 import usung.com.mqttclient.base.BaseTakePhotoFragment;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
 import usung.com.mqttclient.bean.db.GetUserSimpleInfoParameter;
+import usung.com.mqttclient.bean.db.HistoryMessage;
 import usung.com.mqttclient.bean.user.UserSimpleInfoResult;
 import usung.com.mqttclient.http.base.Api;
 import usung.com.mqttclient.http.observers.NoBaseResultObserver;
@@ -61,6 +65,7 @@ public class FragmentMy extends BaseTakePhotoFragment {
     private SharePreferenceUtil spUtil;
     private TakePhoto takePhoto;
     private BottomSheetDialog dialog;
+    private UserSimpleInfoResult thisUserSimpleInfoResult;
 
     public static FragmentMy newInstance(Bundle bundle) {
         FragmentMy f = new FragmentMy();
@@ -145,6 +150,7 @@ public class FragmentMy extends BaseTakePhotoFragment {
                 .subscribe(new NoBaseResultObserver<UserSimpleInfoResult>(getActivity()) {
                     @Override
                     public void onResponse(UserSimpleInfoResult userSimpleInfoResult) {
+                        thisUserSimpleInfoResult = userSimpleInfoResult;
                         // 获取个人信息成功
                         if (userSimpleInfoResult != null && userSimpleInfoResult.getCode() == HttpResposeDataBase.SUCESSED) {
                             tvNick.setText(userSimpleInfoResult.getInfo().getNickName());
@@ -162,7 +168,7 @@ public class FragmentMy extends BaseTakePhotoFragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.ll_black_list, R.id.ll_stranger_list, R.id.iv_header_img})
+    @OnClick({R.id.ll_black_list, R.id.ll_stranger_list, R.id.iv_header_img, R.id.ll_clear_chat_list})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 黑名单
@@ -177,6 +183,16 @@ public class FragmentMy extends BaseTakePhotoFragment {
             case R.id.iv_header_img:
                 setCompressConfig(takePhoto);
                 dialog.show();
+                break;
+            // 清空聊天记录
+            case R.id.ll_clear_chat_list:
+                HistoryMessage historyMessage = new HistoryMessage();
+                historyMessage.setMessageJson("");
+                if (historyMessage.updateAll("senderId = ?", thisUserSimpleInfoResult.getInfo().getId()) > 0) {
+                    ToastUtil.showToast("清空成功");
+                } else {
+                    ToastUtil.showToast("清空失败");
+                }
                 break;
             default:
                 break;
