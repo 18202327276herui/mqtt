@@ -15,3 +15,22 @@ http://192.168.0.61:8883 换成 "ssl://192.168.0.61:8883"，或者tcp://192.168.0.61:
 6，c# 中的 Dictionary类 对应Java中的Map类
 
 7，阿里云oss文档 https://help.aliyun.com/document_detail/32042.html?spm=a2c4g.11186623.6.964.1e574de3XpyNZ9
+
+8，Didn't find class "android.support.v4.content.FileProvider" on path:
+  解决方案：
+app.build 中：
+   defaultConfig {
+        multiDexEnabled true
+    }
+dependencies{
+    compile 'com.android.support:multidex:1.0.2'
+}
+Application中：
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+9，
+
