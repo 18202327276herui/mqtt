@@ -1,25 +1,30 @@
 package usung.com.mqttclient;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,7 +32,9 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
@@ -43,6 +50,10 @@ import com.alibaba.sdk.android.oss.model.GetObjectResult;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.google.gson.reflect.TypeToken;
+import com.lqr.audio.AudioPlayManager;
+import com.lqr.audio.AudioRecordManager;
+import com.lqr.audio.IAudioPlayListener;
+import com.lqr.audio.IAudioRecordListener;
 import com.lqr.emoji.EmoticonPickerView;
 import com.lqr.emoji.EmotionKeyboard;
 import com.lqr.emoji.IEmoticonSelectedListener;
@@ -82,13 +93,14 @@ import usung.com.mqttclient.bean.db.HistoryMessage;
 import usung.com.mqttclient.bean.db.InitiaDataResult;
 import usung.com.mqttclient.bean.db.KeyValue;
 import usung.com.mqttclient.bean.user.LoginResultData;
-import usung.com.mqttclient.bean.user.OssLoginCredencial;
+import usung.com.mqttclient.bean.user.OssLoginCredential;
 import usung.com.mqttclient.bean.user.UserSimpleInfo;
 import usung.com.mqttclient.bean.user.UserStateInfo;
 import usung.com.mqttclient.fragment.Func1Fragment;
 import usung.com.mqttclient.fragment.Func2Fragment;
 import usung.com.mqttclient.utils.GsonHelper;
 import usung.com.mqttclient.utils.InitiadataUtil;
+import usung.com.mqttclient.utils.KeyBoardUtils;
 import usung.com.mqttclient.utils.TimeHelper;
 import usung.com.mqttclient.utils.UserUtil;
 import usung.com.mqttclient.widget.DotView;
@@ -123,6 +135,12 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
     LinearLayout llButtomFunc;
     @BindView(R.id.rightButton)
     Button rightButton;
+    @BindView(R.id.ivAudio)
+    ImageView mIvAudio;
+    @BindView(R.id.btnAudio)
+    Button mBtnAudio;
+    @BindView(R.id.root)
+    LinearLayout mRoot;
 
     /**
      * 聊天界面适配器
@@ -184,7 +202,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
     /**
      * oss 登录参数
      */
-    private OssLoginCredencial ossLoginCredencial;
+    private OssLoginCredential ossLoginCredential;
     /**
      * 图片路径
      */
@@ -214,6 +232,13 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
     private boolean move = false;
     private LinearLayoutManager manager;
     private EmotionKeyboard mEmotionKeyboard;
+    private File mAudioDir;
+//    private Runnable mCvMessageScrollToBottomTask = new Runnable() {
+//        @Override
+//        public void run() {
+//            mRecyclerView.smoothScrollToPosition(historyMessageList.size());
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,6 +250,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
         initDatas();
         initViews();
         initListener();
+        initAudio();
         initOss();
         initRefreshLayout();
     }
@@ -233,7 +259,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
     public void initViews() {
         super.initViews();
 
-        historyMessageList = LitePal.where("senderId = ? and recipientId = ?", initiaDataResult.getData().getSelfInfo().getId(), recipientId).find(HistoryMessage.class);
+        historyMessageList = LitePal.where("senderId = ? and recipientId = ?", initiaDataResult.getData().getSelfInfo().getId() + "", recipientId).find(HistoryMessage.class);
         if (historyMessageList.size() > 0) {
             messageLists = GsonHelper.getGson().fromJson(historyMessageList.get(0).getMessageJson(), new TypeToken<List<HrMqttMessage>>() {
             }.getType());
@@ -250,8 +276,52 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         // 添加分割线
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(adapterChatRceyclerView);
+        adapterChatRceyclerView.setOnItemClicked(new AdapterChatRecyclerView.onItemClicked() {
+            @Override
+            public void onItemClick(int itemType, ImageView ivAudio, File file) {
+                switch (itemType) {
+                    case APPConstants.TYPE_LEFT_VOICE:
+                    case APPConstants.TYPE_RIGHT_VOICE:
+                        AudioPlayManager.getInstance().stopPlay();
+//                        File item = mData.get(position);
+                        Uri audioUri = Uri.fromFile(file);
+                        Log.e("LQR", audioUri.toString());
+                        AudioPlayManager.getInstance().startPlay(ActivityChat.this, audioUri, new IAudioPlayListener() {
+                            @Override
+                            public void onStart(Uri var1) {
+                                if (ivAudio != null && ivAudio.getBackground() instanceof AnimationDrawable) {
+                                    AnimationDrawable animation = (AnimationDrawable) ivAudio.getBackground();
+                                    animation.start();
+                                }
+                            }
+
+                            @Override
+                            public void onStop(Uri var1) {
+                                if (ivAudio != null && ivAudio.getBackground() instanceof AnimationDrawable) {
+                                    AnimationDrawable animation = (AnimationDrawable) ivAudio.getBackground();
+                                    animation.stop();
+                                    animation.selectDrawable(0);
+                                }
+
+                            }
+
+                            @Override
+                            public void onComplete(Uri var1) {
+                                if (ivAudio != null && ivAudio.getBackground() instanceof AnimationDrawable) {
+                                    AnimationDrawable animation = (AnimationDrawable) ivAudio.getBackground();
+                                    animation.stop();
+                                    animation.selectDrawable(0);
+                                }
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
         initEmotionPickerView();
         initEmotionKeyboard();
@@ -277,9 +347,9 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
         mEmotionKeyboard.setOnEmotionButtonOnClickListener(new EmotionKeyboard.OnEmotionButtonOnClickListener() {
             @Override
             public boolean onEmotionButtonOnClickListener(View view) {
-//                if (mBtnAudio.getVisibility() == View.VISIBLE) {
-//                    hideBtnAudio();
-//                }
+                if (mBtnAudio.getVisibility() == View.VISIBLE) {
+                    hideBtnAudio();
+                }
                 //输入框底部显示时
                 if (frameLayout.getVisibility() == View.VISIBLE) {
                     //表情控件显示而点击的按钮是ivAdd时，拦截事件，隐藏表情控件，显示功能区
@@ -311,6 +381,13 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
     }
 
     /**
+     * 消息列表滚动至最后
+     */
+//    private void cvScrollToBottom() {
+//        UIUtils.postTaskDelay(mCvMessageScrollToBottomTask, 100);
+//    }
+
+    /**
      * 设置表情、贴图控件
      */
     private void initEmotionPickerView() {
@@ -330,7 +407,6 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     // message Arrived! 收到消息
                     Log.e("Chat messageArrived", "Message: " + topic + " : " + new String(message.getPayload()));
-
                     Message message1 = new Message();
                     message1.what = APPConstants.UPDATE_RECYCLEVIEW;
                     Bundle bundle = new Bundle();
@@ -394,6 +470,190 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 }
             }
         });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+//                hideSoftKeyboard(ActivityChat.this);
+//                etMessage.setFocusable(false);
+            }
+        });
+
+        //录音按钮的触摸事件
+//        "按住 说话"
+//        "松开 结束"
+//        "松开手指，取消发送"
+        mBtnAudio.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        AudioRecordManager.getInstance(ActivityChat.this).startRecord();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (isCancelled(v, event)) {
+                            AudioRecordManager.getInstance(ActivityChat.this).willCancelRecord();
+                        } else {
+                            AudioRecordManager.getInstance(ActivityChat.this).continueRecord();
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        AudioRecordManager.getInstance(ActivityChat.this).stopRecord();
+                        AudioRecordManager.getInstance(ActivityChat.this).destroyRecord();
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
+
+        AudioRecordManager.getInstance(this).setAudioRecordListener(new IAudioRecordListener() {
+
+            private TextView mTimerTV;
+            private TextView mStateTV;
+            private ImageView mStateIV;
+            private PopupWindow mRecordWindow;
+
+            @Override
+            public void initTipView() {
+                View view = View.inflate(ActivityChat.this, R.layout.popup_audio_wi_vo, null);
+                mStateIV = (ImageView) view.findViewById(R.id.rc_audio_state_image);
+                mStateTV = (TextView) view.findViewById(R.id.rc_audio_state_text);
+                mTimerTV = (TextView) view.findViewById(R.id.rc_audio_timer);
+                mRecordWindow = new PopupWindow(view, -1, -1);
+                mRecordWindow.showAtLocation(mRoot, 17, 0, 0);
+                mRecordWindow.setFocusable(true);
+                mRecordWindow.setOutsideTouchable(false);
+                mRecordWindow.setTouchable(false);
+            }
+
+            @Override
+            public void setTimeoutTipView(int counter) {
+                if (this.mRecordWindow != null) {
+                    this.mStateIV.setVisibility(View.GONE);
+                    this.mStateTV.setVisibility(View.VISIBLE);
+                    this.mStateTV.setText(R.string.voice_rec);
+                    this.mStateTV.setBackgroundResource(R.drawable.bg_voice_popup);
+                    this.mTimerTV.setText(String.format("%s", new Object[]{Integer.valueOf(counter)}));
+                    this.mTimerTV.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void setRecordingTipView() {
+                if (this.mRecordWindow != null) {
+                    this.mStateIV.setVisibility(View.VISIBLE);
+                    this.mStateIV.setImageResource(R.mipmap.ic_volume_1);
+                    this.mStateTV.setVisibility(View.VISIBLE);
+                    this.mStateTV.setText(R.string.voice_rec);
+                    this.mStateTV.setBackgroundResource(R.drawable.bg_voice_popup);
+                    this.mTimerTV.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void setAudioShortTipView() {
+                if (this.mRecordWindow != null) {
+                    mStateIV.setImageResource(R.mipmap.ic_volume_wraning);
+                    mStateTV.setText(R.string.voice_short);
+                }
+            }
+
+            @Override
+            public void setCancelTipView() {
+                if (this.mRecordWindow != null) {
+                    this.mTimerTV.setVisibility(View.GONE);
+                    this.mStateIV.setVisibility(View.VISIBLE);
+                    this.mStateIV.setImageResource(R.mipmap.ic_volume_cancel);
+                    this.mStateTV.setVisibility(View.VISIBLE);
+                    this.mStateTV.setText(R.string.voice_cancel);
+                    this.mStateTV.setBackgroundResource(R.drawable.corner_voice_style);
+                }
+            }
+
+            @Override
+            public void destroyTipView() {
+                if (this.mRecordWindow != null) {
+                    this.mRecordWindow.dismiss();
+                    this.mRecordWindow = null;
+                    this.mStateIV = null;
+                    this.mStateTV = null;
+                    this.mTimerTV = null;
+                }
+            }
+
+            @Override
+            public void onStartRecord() {
+                //开始录制
+            }
+
+            @Override
+            public void onFinish(Uri audioPath, int duration) {
+                //发送文件
+                File file = new File(audioPath.getPath());
+                if (file.exists()) {
+                    Toast.makeText(getApplicationContext(), "录制成功", Toast.LENGTH_SHORT).show();
+                    // 构造mqtt消息
+                    HrMqttMessage hrMqttMessage = new HrMqttMessage();
+                    hrMqttMessage.setContent(etMessage.getText().toString());
+                    hrMqttMessage.setType(APPConstants.TYPE_RIGHT_VOICE);
+                    hrMqttMessage.setTime(TimeHelper.getSystemTime());
+                    hrMqttMessage.setVoiceFile(file);
+                    messageLists.add(hrMqttMessage);
+                    adapterChatRceyclerView.notifyDataSetChanged();
+                    mRecyclerView.smoothScrollToPosition(messageLists.size());
+
+                    putObject("voice", audioPath.getPath());
+                }
+            }
+
+            @Override
+            public void onAudioDBChanged(int db) {
+                switch (db / 5) {
+                    case 0:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_1);
+                        break;
+                    case 1:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_2);
+                        break;
+                    case 2:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_3);
+                        break;
+                    case 3:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_4);
+                        break;
+                    case 4:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_5);
+                        break;
+                    case 5:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_6);
+                        break;
+                    case 6:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_7);
+                        break;
+                    default:
+                        this.mStateIV.setImageResource(R.mipmap.ic_volume_8);
+                }
+            }
+        });
+    }
+
+    /**
+     * 是否取消录音
+     *
+     * @param view
+     * @param event
+     * @return
+     */
+    private boolean isCancelled(View view, MotionEvent event) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        if (event.getRawX() < location[0] || event.getRawX() > location[0] + view.getWidth() || event.getRawY() < location[1] - 40) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -443,7 +703,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
         // 登录返回结果数据
         loginResultData = UserUtil.getUser(getActivity());
         // oss 登录参数
-        ossLoginCredencial = loginResultData.getOssCredencial();
+        ossLoginCredential = loginResultData.getOssCredencial();
         // 初始化数据
         initiaDataResult = InitiadataUtil.getInitiadata(getActivity());
         // 订阅的主题
@@ -462,8 +722,8 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
      * 初始化oss
      */
     public void initOss() {
-        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(ossLoginCredencial.getId(), ossLoginCredencial.getKey());
-        oss = new OSSClient(getApplicationContext(), ossLoginCredencial.getHost(), credentialProvider);
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(ossLoginCredential.getId(), ossLoginCredential.getKey());
+        oss = new OSSClient(getApplicationContext(), ossLoginCredential.getHost(), credentialProvider);
     }
 
     /**
@@ -478,7 +738,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
         mRefreshLayou.setRefreshViewHolder(refreshViewHolder);
     }
 
-    @OnClick({R.id.btn_send_topic, R.id.iv_add, R.id.btn_send, R.id.rightButton})
+    @OnClick({R.id.btn_send_topic, R.id.iv_add, R.id.btn_send, R.id.rightButton, R.id.ivAudio})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send_topic:
@@ -501,7 +761,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 hrMqttMessage.setGroup(false);
                 hrMqttMessage.setMessageId(UUID.randomUUID().toString());
                 hrMqttMessage.setSession(recipientId);
-                hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+                hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId() + "");
                 hrMqttMessage.setRecipientId(recipientId);
 //                List<HrMqttMessage>  hrMqttMessageList = LitePal.findAll(HrMqttMessage.class);
                 messageLists.add(hrMqttMessage);
@@ -514,10 +774,10 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 if (historyMessageList.size() > 0) {
                     HistoryMessage historyMessage = new HistoryMessage();
                     historyMessage.setMessageJson(GsonHelper.getGson().toJson(messageLists));
-                    historyMessage.updateAll("senderId = ? and recipientId = ?", initiaDataResult.getData().getSelfInfo().getId(), recipientId);
+                    historyMessage.updateAll("senderId = ? and recipientId = ?", initiaDataResult.getData().getSelfInfo().getId() + "", recipientId);
                 } else {
                     HistoryMessage historyMessage = new HistoryMessage();
-                    historyMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+                    historyMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId() + "");
                     historyMessage.setRecipientId(recipientId);
                     historyMessage.setMessageJson(GsonHelper.getGson().toJson(messageLists));
                     historyMessage.save();
@@ -534,17 +794,66 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
             case R.id.rightButton:
                 startActivity(new Intent(ActivityChat.this, ActivityFriendInfo.class));
                 break;
+            case R.id.ivAudio:
+                toggleAudioButtonVisibility();
+                break;
             default:
                 break;
         }
     }
 
     /**
+     * 切换语音按钮显隐
+     */
+    public void toggleAudioButtonVisibility() {
+        if (mBtnAudio.getVisibility() == View.VISIBLE) {
+            hideBtnAudio();
+        } else {
+            showBtnAudio();
+        }
+        //修改图标
+        mIvAudio.setImageResource(mBtnAudio.getVisibility() == View.VISIBLE ? R.mipmap.ic_cheat_keyboard : R.mipmap.ic_cheat_voice);
+    }
+
+    private void showBtnAudio() {
+        mBtnAudio.setVisibility(View.VISIBLE);
+        etMessage.setVisibility(View.GONE);
+        ivEmo.setVisibility(View.GONE);
+        //关闭键盘
+        closeKeyBoardAndLoseFocus();
+    }
+
+    private void hideBtnAudio() {
+        mBtnAudio.setVisibility(View.GONE);
+        etMessage.setVisibility(View.VISIBLE);
+        ivEmo.setVisibility(View.VISIBLE);
+        //打开键盘
+        openKeyBoardAndGetFocus();
+    }
+
+    /**
+     * 获取焦点，并打开键盘
+     */
+    private void openKeyBoardAndGetFocus() {
+        etMessage.requestFocus();
+        KeyBoardUtils.openKeybord(etMessage, this);
+    }
+
+    /**
+     * 失去焦点，并关闭键盘
+     */
+    private void closeKeyBoardAndLoseFocus() {
+        etMessage.clearFocus();
+        KeyBoardUtils.closeKeybord(etMessage, this);
+        frameLayout.setVisibility(View.GONE);
+    }
+
+    /**
      * 上传文件
      */
-    public void putObject() {
+    public void putObject(String objectKey, String uploadFilePath) {
         //构造上传请求
-        PutObjectRequest put = new PutObjectRequest(ossLoginCredencial.getBucket(), "test", mPicturePath);
+        PutObjectRequest put = new PutObjectRequest(ossLoginCredential.getBucket(), objectKey, uploadFilePath);
         //异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
@@ -567,15 +876,19 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 fileDescription.setLength(file.length());
                 // 发送消息
                 HrMqttMessage hrMqttMessage = new HrMqttMessage();
-                hrMqttMessage.setType(APPConstants.TYPE_RIGHT_TEXT);
+                hrMqttMessage.setType(APPConstants.TYPE_RIGHT_IMAGE);
                 hrMqttMessage.setTime(TimeHelper.getSystemTime());
                 hrMqttMessage.setContent(GsonHelper.getGson().toJson(fileDescription));
-                hrMqttMessage.setMessageType(APPConstants.MESSAGE_TYPE_IMAGE);
                 hrMqttMessage.setGroup(false);
                 hrMqttMessage.setMessageId(UUID.randomUUID().toString());
                 hrMqttMessage.setSession(recipientId);
-                hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+                hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId() + "");
                 hrMqttMessage.setRecipientId(recipientId);
+                if (objectKey.contains("voice")) {
+                    hrMqttMessage.setMessageType(APPConstants.MESSAGE_TYPE_VOICE);
+                } else if (objectKey.contains("image")) {
+                    hrMqttMessage.setMessageType(APPConstants.MESSAGE_TYPE_IMAGE);
+                }
                 mqttHelper.publishMessage(GsonHelper.getGson().toJson(hrMqttMessage), "/Im/" + topic);
             }
 
@@ -603,7 +916,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
      */
     public void getObject(String key) {
         // 构造下载文件请求
-        GetObjectRequest get = new GetObjectRequest(ossLoginCredencial.getBucket(), key);
+        GetObjectRequest get = new GetObjectRequest(ossLoginCredential.getBucket(), key);
 
         // 设置下载进度回调
         get.setProgressListener(new OSSProgressCallback<GetObjectRequest>() {
@@ -733,7 +1046,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 Log.e("Exception", e.getMessage(), e);
             }
 
-            putObject();
+            putObject("image", mPicturePath);
         }
     }
 
@@ -755,15 +1068,16 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
                 if (historyMessageList.size() > 0) {
                     HistoryMessage historyMessage = new HistoryMessage();
                     historyMessage.setMessageJson(GsonHelper.getGson().toJson(messageLists));
-                    historyMessage.updateAll("senderId = ? and recipientId = ?", initiaDataResult.getData().getSelfInfo().getId(), recipientId);
+                    historyMessage.updateAll("senderId = ? and recipientId = ?", initiaDataResult.getData().getSelfInfo().getId() + "", recipientId);
                 } else {
                     HistoryMessage historyMessage = new HistoryMessage();
-                    historyMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+                    historyMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId() + "");
                     historyMessage.setRecipientId(recipientId);
                     historyMessage.setMessageJson(GsonHelper.getGson().toJson(messageLists));
                     historyMessage.save();
                 }
                 sendAckMessage(hrMqttMessage);
+                sendNotification(hrMqttMessage.getSenderId() + ":" + hrMqttMessage.getContent());
                 break;
             // 图片消息
             case APPConstants.MESSAGE_TYPE_IMAGE:
@@ -798,9 +1112,44 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
     }
 
     /**
-     *   收到消息 发送ack确认收到
+     * 初始化语音
      */
-    public void sendAckMessage(HrMqttMessage hrMqttMessage){
+    public void initAudio() {
+        // 默认时长11秒
+        AudioRecordManager.getInstance(this).setMaxVoiceDuration(11);
+        // 该库内不对文件夹是否存在进行判断，所以请在你的项目中自行判断
+        mAudioDir = new File(Environment.getExternalStorageDirectory(), "mqtt_audio");
+        if (!mAudioDir.exists()) {
+            mAudioDir.mkdir();
+        }
+        AudioRecordManager.getInstance(this).setAudioSavePath(mAudioDir.getAbsolutePath());
+    }
+
+    /**
+     * 通知栏消息
+     */
+    private void sendNotification(String contentText) {
+        Intent intent = new Intent(ActivityChat.this, ActivityChat.class);
+        intent.putExtra("recipientId", recipientId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ActivityChat.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        // 获取NotificationManager实例
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // 实例化NotificationCompat.Builder 并设置相关属性
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("有新消息")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setContentText(contentText);
+        // 通过builder.build()方法生成Notification对象，并发送通知 id =1
+        notificationManager.notify(1, builder.build());
+    }
+
+    /**
+     * 收到消息 发送ack确认收到
+     */
+    public void sendAckMessage(HrMqttMessage hrMqttMessage) {
         // 收到消息 发送ack确认收到
         HrMqttMessage hrMqttMessage1 = new HrMqttMessage();
         hrMqttMessage1.setType(APPConstants.TYPE_RIGHT_TEXT);
@@ -810,7 +1159,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
         hrMqttMessage1.setGroup(false);
         hrMqttMessage1.setMessageId(UUID.randomUUID().toString());
         hrMqttMessage1.setSession(recipientId);
-        hrMqttMessage1.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+        hrMqttMessage1.setSenderId(initiaDataResult.getData().getSelfInfo().getId() + "");
         hrMqttMessage1.setRecipientId(recipientId);
         mqttHelper.publishMessage(GsonHelper.getGson().toJson(hrMqttMessage1), "/Im/" + topic);
     }

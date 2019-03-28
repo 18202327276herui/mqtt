@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Bucket = "usung-chat-test"
  */
 
-public class OssLoginCredencial implements Serializable {
+public class OssLoginCredential implements Serializable {
     /// <summary>
     /// 用户名
     /// </summary>

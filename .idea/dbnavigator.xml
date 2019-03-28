@@ -26,18 +26,15 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="d496bbd1-bbee-4e22-b732-6218cf2cad6b">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from historymessage;]]></console>
+    <connection id="ae9dfa7d-09d9-4430-9408-f10c769aa0d9">
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from historymessage]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="d496bbd1-bbee-4e22-b732-6218cf2cad6b" />
-  </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-list connection-id="d496bbd1-bbee-4e22-b732-6218cf2cad6b" dataset="main.historymessage" active-filter-id="" />
+    <connection id="ae9dfa7d-09d9-4430-9408-f10c769aa0d9" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -62,7 +59,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="d496bbd1-bbee-4e22-b732-6218cf2cad6b" active="true">
+      <connection id="ae9dfa7d-09d9-4430-9408-f10c769aa0d9" active="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -77,7 +74,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="D:\db\mqttdb.db" schema="main" />
+            <file path="C:\Users\herui\Desktop\mqttdb.db" schema="main" />
           </files>
           <os-authentication value="false" />
           <empty-password value="false" />

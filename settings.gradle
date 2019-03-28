@@ -1,1 +1,2 @@
-include ':app', ':org.eclipse.paho.android.service'
+include ':app', ':org.eclipse.paho.android.service', ':audioRecord1'
+project(':audioRecord1').projectDir = new File('audioRecord')

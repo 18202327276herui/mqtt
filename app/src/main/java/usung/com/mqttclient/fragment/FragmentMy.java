@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.model.TakePhotoOptions;
 
 import org.litepal.LitePal;
 
@@ -27,6 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.activity.ActivityBlackAndStrangerList;
+import usung.com.mqttclient.activity.ActivityUserInfo;
 import usung.com.mqttclient.base.BaseFragment;
 import usung.com.mqttclient.base.BaseTakePhotoFragment;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
@@ -154,7 +156,7 @@ public class FragmentMy extends BaseTakePhotoFragment {
                         // 获取个人信息成功
                         if (userSimpleInfoResult != null && userSimpleInfoResult.getCode() == HttpResposeDataBase.SUCESSED) {
                             tvNick.setText(userSimpleInfoResult.getInfo().getNickName());
-                            tvNumber.setText(userSimpleInfoResult.getInfo().getId());
+                            tvNumber.setText(userSimpleInfoResult.getInfo().getId() + "");
                         } else {
                             ToastUtil.showToast(R.string.get_user_info_fail);
                         }
@@ -168,7 +170,7 @@ public class FragmentMy extends BaseTakePhotoFragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.ll_black_list, R.id.ll_stranger_list, R.id.iv_header_img, R.id.ll_clear_chat_list})
+    @OnClick({R.id.ll_black_list, R.id.ll_stranger_list, R.id.iv_header_img, R.id.ll_clear_chat_list, R.id.ll_my_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 黑名单
@@ -188,11 +190,14 @@ public class FragmentMy extends BaseTakePhotoFragment {
             case R.id.ll_clear_chat_list:
                 HistoryMessage historyMessage = new HistoryMessage();
                 historyMessage.setMessageJson("");
-                if (historyMessage.updateAll("senderId = ?", thisUserSimpleInfoResult.getInfo().getId()) > 0) {
-                    ToastUtil.showToast("清空成功");
-                } else {
-                    ToastUtil.showToast("清空失败");
-                }
+                historyMessage.updateAll("senderId = ?", thisUserSimpleInfoResult.getInfo().getId() + "");
+                ToastUtil.showToast("清空成功");
+//                } else {
+//                    ToastUtil.showToast("暂无数据可以清空");
+//                }
+                break;
+            case R.id.ll_my_info:
+                startActivity(new Intent(getActivity(), ActivityUserInfo.class));
                 break;
             default:
                 break;

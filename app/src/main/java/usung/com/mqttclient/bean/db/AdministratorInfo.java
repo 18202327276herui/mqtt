@@ -9,14 +9,14 @@ import java.io.Serializable;
  */
 
 public class AdministratorInfo implements Serializable {
-    public String Id ;
+    public long Id ;
     public String Topic;
 
-    public String getId() {
+    public long getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         Id = id;
     }
 

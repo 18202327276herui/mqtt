@@ -111,7 +111,7 @@ public class ActivityRegister extends BaseActivity {
     public void register() {
         showLoading("");
         RegisteParameter registeParameter = new RegisteParameter();
-        registeParameter.setUserId(userName);
+        registeParameter.setUserId(Long.parseLong(userName));
         registeParameter.setNickName(nickName);
         registeParameter.setFirstPassWords(passWord);
         Api.getApiService().registe(registeParameter)

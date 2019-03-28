@@ -12,7 +12,7 @@ public class GroupMember implements Serializable {
     /// <summary>
     /// yonghuid
     /// </summary>
-    public String UserId ;
+    public long UserId ;
     /// <summary>
     /// 群组角色
     /// </summary>
@@ -28,11 +28,11 @@ public class GroupMember implements Serializable {
 
     public String JoinTime ;
 
-    public String getUserId() {
+    public long getUserId() {
         return UserId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         UserId = userId;
     }
 

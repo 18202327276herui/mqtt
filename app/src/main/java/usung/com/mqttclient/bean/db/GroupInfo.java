@@ -15,11 +15,11 @@ public class GroupInfo implements Serializable {
     /// <summary>
     /// 管理员
     /// </summary>
-    public List<String> Administrators;
+    public List<Long> Administrators;
     /// <summary>
     /// 成员列表
     /// </summary>
-    public Map<String, GroupMember> Members;
+    public Map<Long, GroupMember> Members;
     /// <summary>
     /// 是否被禁言
     /// </summary>
@@ -27,19 +27,19 @@ public class GroupInfo implements Serializable {
 
     public GroupSimpleInfo SimpleInfo;
 
-    public List<String> getAdministrators() {
+    public List<Long> getAdministrators() {
         return Administrators;
     }
 
-    public void setAdministrators(List<String> administrators) {
+    public void setAdministrators(List<Long> administrators) {
         Administrators = administrators;
     }
 
-    public Map<String, GroupMember> getMembers() {
+    public Map<Long, GroupMember> getMembers() {
         return Members;
     }
 
-    public void setMembers(Map<String, GroupMember> members) {
+    public void setMembers(Map<Long, GroupMember> members) {
         Members = members;
     }
 

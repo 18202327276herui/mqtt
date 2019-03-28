@@ -27,11 +27,11 @@ public class LoginResultData extends HttpResposeDataBase implements Serializable
     /// <summary>
     /// mqtt 登录参数
     /// </summary>
-    public MqttLoginCredential MqttCredencial;
+    public MqttLoginCredential MqttCredential;
     /// <summary>
     /// oss 登录参数
     /// </summary>
-    public OssLoginCredencial OssCredencial;
+    public OssLoginCredential OssCredential;
     /// <summary>
     /// db 地址 ip+端口
     /// </summary>
@@ -62,19 +62,19 @@ public class LoginResultData extends HttpResposeDataBase implements Serializable
     }
 
     public MqttLoginCredential getMqttCredencial() {
-        return MqttCredencial;
+        return MqttCredential;
     }
 
     public void setMqttCredencial(MqttLoginCredential mqttCredencial) {
-        MqttCredencial = mqttCredencial;
+        MqttCredential = mqttCredencial;
     }
 
-    public OssLoginCredencial getOssCredencial() {
-        return OssCredencial;
+    public OssLoginCredential getOssCredencial() {
+        return OssCredential;
     }
 
-    public void setOssCredencial(OssLoginCredencial ossCredencial) {
-        OssCredencial = ossCredencial;
+    public void setOssCredencial(OssLoginCredential ossCredencial) {
+        OssCredential = ossCredencial;
     }
 
     public String getDBHost() {

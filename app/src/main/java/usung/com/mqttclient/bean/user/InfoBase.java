@@ -11,7 +11,7 @@ public class InfoBase implements Serializable {
     /// <summary>
     /// Id
     /// </summary>
-    public String Id;
+    public long Id;
     /// <summary>
     /// 创建时间
     /// </summary>
@@ -29,11 +29,11 @@ public class InfoBase implements Serializable {
     /// </summary>
     public String NickName;
 
-    public String getId() {
+    public long getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         Id = id;
     }
 

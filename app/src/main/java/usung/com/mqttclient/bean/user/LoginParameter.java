@@ -12,7 +12,7 @@ public class LoginParameter implements Serializable {
     /// <summary>
     /// 用户名
     /// </summary>
-    public String UserId;
+    public long UserId;
     /// <summary>
     /// 密码
     /// </summary>
@@ -28,11 +28,11 @@ public class LoginParameter implements Serializable {
 
     public DeviceType DeviceType;
 
-    public String getUserId() {
+    public long getUserId() {
         return UserId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         UserId = userId;
     }
 

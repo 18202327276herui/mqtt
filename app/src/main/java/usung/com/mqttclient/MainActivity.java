@@ -1,12 +1,10 @@
 package usung.com.mqttclient;
 
-import android.app.LauncherActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,7 +21,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
-import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.adapter.PagerAdapter;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
@@ -163,7 +160,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             @Override
             public void run() {
                 try {
-                    // 延迟3秒发送
+                    // 延迟5秒发送
                     Thread.sleep(5000);
                     for (KeyValue keyValue : keyValues) {
                         UserStateInfo userStateInfo = new UserStateInfo();
@@ -176,7 +173,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         hrMqttMessage.setContent(GsonHelper.getGson().toJson(userStateInfo));
                         hrMqttMessage.setMessageId(UUID.randomUUID().toString());
                         hrMqttMessage.setSession(keyValue.getKey());
-                        hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId());
+                        hrMqttMessage.setSenderId(initiaDataResult.getData().getSelfInfo().getId() + "");
                         hrMqttMessage.setRecipientId(keyValue.getKey());
                         mqttHelper.publishMessage(GsonHelper.getGson().toJson(hrMqttMessage), "/Im/" +  keyValue.getValue());
                     }

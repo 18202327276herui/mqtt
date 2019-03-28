@@ -2,6 +2,7 @@ package usung.com.mqttclient.bean;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,6 +27,14 @@ public class HrMqttMessage extends Message implements Serializable {
      * 发送的图片
      */
     private Bitmap bitmap;
+    /**
+     *  语音文件
+     */
+    private File voiceFile;
+    /**
+     *  语音文件长度
+     */
+    private String voiceLength;
 //    /**
 //     *  发送时间
 //     */
@@ -55,7 +64,23 @@ public class HrMqttMessage extends Message implements Serializable {
         this.icon = icon;
     }
 
-//    public Date getSendDate() {
+    public File getVoiceFile() {
+        return voiceFile;
+    }
+
+    public void setVoiceFile(File voiceFile) {
+        this.voiceFile = voiceFile;
+    }
+
+    public String getVoiceLength() {
+        return voiceLength;
+    }
+
+    public void setVoiceLength(String voiceLength) {
+        this.voiceLength = voiceLength;
+    }
+
+    //    public Date getSendDate() {
 //        return sendDate;
 //    }
 //

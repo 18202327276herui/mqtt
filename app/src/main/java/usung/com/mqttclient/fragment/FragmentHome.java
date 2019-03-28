@@ -2,7 +2,6 @@ package usung.com.mqttclient.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,8 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -23,19 +26,26 @@ import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import q.rorbin.badgeview.QBadgeView;
+import butterknife.OnClick;
 import usung.com.mqttclient.ActivityChat;
 import usung.com.mqttclient.R;
+import usung.com.mqttclient.activity.ActivityFriendInfo;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseFragment;
 import usung.com.mqttclient.base.MqttHelper;
+import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.db.HistoryMessage;
 import usung.com.mqttclient.bean.db.InitiaDataResult;
+import usung.com.mqttclient.bean.user.UserStateInfo;
+import usung.com.mqttclient.utils.GsonHelper;
 import usung.com.mqttclient.utils.InitiadataUtil;
+import usung.com.mqttclient.utils.TimeHelper;
+import usung.com.mqttclient.utils.ToastUtil;
 
 /**
  * 主页 -- 首页
@@ -51,6 +61,8 @@ public class FragmentHome extends BaseFragment {
     TextView headerTitle;
     @BindView(R.id.backButton)
     RelativeLayout backButtonView;
+    @BindView(R.id.rightButton)
+    Button rightButton;
     /**
      * 适配器
      */
@@ -104,7 +116,11 @@ public class FragmentHome extends BaseFragment {
         // 订阅的主题
         subscriptionTopic = initiaDataResult.getData().getSelfTopic();
 
-        historyMessageList = LitePal.where("senderid = ?", initiaDataResult.getData().getSelfInfo().getId()).find(HistoryMessage.class);
+        try {
+            historyMessageList = LitePal.where("senderid = ?", initiaDataResult.getData().getSelfInfo().getId() + "").find(HistoryMessage.class);
+        } catch (Exception e) {
+            Log.i("test", "00");
+        }
         adapterMainRceyclerView = new AdapterMainRecyclerView(getActivity(), historyMessageList);
         // 配置RceyclerView
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -128,7 +144,7 @@ public class FragmentHome extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    // 延迟1秒
+                    // 延迟2秒
                     Thread.sleep(2000);
                     try {
                         // 订阅主题
@@ -147,5 +163,28 @@ public class FragmentHome extends BaseFragment {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @OnClick({R.id.rightButton})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rightButton:
+                XPopup.get(getActivity()).asAttachList(new String[]{"添加朋友"}, new int[]{R.mipmap.ic_add_friend},
+                        new OnSelectListener() {
+                            @Override
+                            public void onSelect(int position, String text) {
+                                ToastUtil.showToast("click" + text);
+                            }
+                        })
+                        .atView(rightButton).show();
+                break;
+            default:
+                break;
+        }
     }
 }

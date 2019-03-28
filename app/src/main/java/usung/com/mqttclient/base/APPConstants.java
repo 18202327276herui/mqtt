@@ -6,6 +6,7 @@ package usung.com.mqttclient.base;
 
 public class APPConstants {
     public static final String SERVER_URL = "http://192.168.0.61:10336/";
+//    public static final String SERVER_URL = "http://192.168.0.173:10336/";
     //    public static final String SERVER_URL = "http://192.168.0.43:10336/";
     public static final int UPDATE_RECYCLEVIEW = 1;
     public static final int UPDATE_RECYCLEVIEW_IMG = 2;
@@ -14,6 +15,8 @@ public class APPConstants {
     public static final int TYPE_RIGHT_TEXT = 2;
     public static final int TYPE_LEFT_IMAGE = 3;
     public static final int TYPE_RIGHT_IMAGE = 4;
+    public static final int TYPE_LEFT_VOICE = 5;
+    public static final int TYPE_RIGHT_VOICE = 6;
 
     /**
      * 登录账号的保存
@@ -41,6 +44,7 @@ public class APPConstants {
      * 消息类型
      */
     public static final int MESSAGE_TYPE_TEXT = 0;
+    public static final int MESSAGE_TYPE_VOICE = 1;
     public static final int MESSAGE_TYPE_IMAGE = 3;
     public static final int MESSAGE_TYPE_MSG_ACK = 22;
     public static final int MESSAGE_TYPE_USER_STATE_CHANGED = 23;

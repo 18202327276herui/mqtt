@@ -176,7 +176,7 @@ public class ActivityLogin extends BaseActivity {
     public void login() {
         showLoading("");
         LoginParameter loginParameter = new LoginParameter();
-        loginParameter.setUserId(edtAccount.getText().toString());
+        loginParameter.setUserId(Long.parseLong(edtAccount.getText().toString()));
         loginParameter.setPassWord(edtPwd.getText().toString());
         Api.getApiService().login(loginParameter)
                 .subscribeOn(Schedulers.io())

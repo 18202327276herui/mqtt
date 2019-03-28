@@ -111,7 +111,7 @@ public class ActivitySearch extends BaseActivity {
         adapter.setListener(new SearchAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, UserSimpleInfo userSimpleInfo) {
-                startActivity(new Intent(getActivity(), ActivityChat.class).putExtra("recipientId", userSimpleInfo.getId()));
+                startActivity(new Intent(getActivity(), ActivityChat.class).putExtra("recipientId", userSimpleInfo.getId() + ""));
             }
         });
     }
