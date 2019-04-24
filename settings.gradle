@@ -1,2 +1,2 @@
-include ':app', ':org.eclipse.paho.android.service', ':audioRecord1'
+include ':app', ':org.eclipse.paho.android.service', ':audioRecord1', ':com.usung.mqttclient.mqtthelper'
 project(':audioRecord1').projectDir = new File('audioRecord')

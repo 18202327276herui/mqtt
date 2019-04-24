@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.usung.mqttclient.MqttHelper;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -26,25 +27,17 @@ import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import usung.com.mqttclient.ActivityChat;
 import usung.com.mqttclient.R;
-import usung.com.mqttclient.activity.ActivityFriendInfo;
 import usung.com.mqttclient.adapter.AdapterMainRecyclerView;
-import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseFragment;
-import usung.com.mqttclient.base.MqttHelper;
-import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.db.HistoryMessage;
 import usung.com.mqttclient.bean.db.InitiaDataResult;
-import usung.com.mqttclient.bean.user.UserStateInfo;
-import usung.com.mqttclient.utils.GsonHelper;
 import usung.com.mqttclient.utils.InitiadataUtil;
-import usung.com.mqttclient.utils.TimeHelper;
 import usung.com.mqttclient.utils.ToastUtil;
 
 /**

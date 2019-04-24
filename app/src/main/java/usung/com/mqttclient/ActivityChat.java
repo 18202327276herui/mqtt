@@ -57,6 +57,7 @@ import com.lqr.audio.IAudioRecordListener;
 import com.lqr.emoji.EmoticonPickerView;
 import com.lqr.emoji.EmotionKeyboard;
 import com.lqr.emoji.IEmoticonSelectedListener;
+import com.usung.mqttclient.MqttHelper;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -86,7 +87,6 @@ import usung.com.mqttclient.adapter.FuncPagerAdapter;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.base.BaseFragment;
-import usung.com.mqttclient.base.MqttHelper;
 import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.db.FileDescription;
 import usung.com.mqttclient.bean.db.HistoryMessage;
@@ -1031,7 +1031,7 @@ public class ActivityChat extends BaseActivity implements BGARefreshLayout.BGARe
             //这是本机的图片路径
             String img_url = selectedImage.getPath();
             ContentResolver cr = this.getContentResolver();
-            try {
+                try {
                 Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(selectedImage));
                 // 构造mqtt消息
                 HrMqttMessage hrMqttMessage = new HrMqttMessage();

@@ -3,12 +3,10 @@ package usung.com.mqttclient.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,26 +22,24 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.litepal.LitePal;
-import org.litepal.tablemanager.Connector;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import usung.com.mqttclient.Interface.ILoginVisitor;
 import usung.com.mqttclient.MainActivity;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.adapter.AdapterRecordLoginInfo;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
+import usung.com.mqttclient.bean.user.DeviceType;
 import usung.com.mqttclient.bean.user.LoginParameter;
 import usung.com.mqttclient.bean.user.LoginResultData;
+import usung.com.mqttclient.bean.user.RegistResultData;
 import usung.com.mqttclient.http.base.Api;
 import usung.com.mqttclient.http.observers.NoBaseResultObserver;
 import usung.com.mqttclient.utils.SharePreferenceUtil;
@@ -60,7 +56,7 @@ import static usung.com.mqttclient.base.APPConstants.SHARE_LOGIN_PWD;
  *  登录界面
  * @author herui
  */
-public class ActivityLogin extends BaseActivity {
+public class ActivityLogin extends BaseActivity implements ILoginVisitor {
     @BindView(R.id.edt_account)
     EditText edtAccount;
     @BindView(R.id.edt_pwd)
@@ -144,7 +140,7 @@ public class ActivityLogin extends BaseActivity {
                     ToastUtil.showToast(getString(R.string.input_pwd));
                     return;
                 }
-                login();
+                login(Long.parseLong(edtAccount.getText().toString()), edtPwd.getText().toString(), new DeviceType());
                 break;
             case R.id.tv_register:
                 startActivity(new Intent(ActivityLogin.this, ActivityRegister.class));
@@ -167,55 +163,6 @@ public class ActivityLogin extends BaseActivity {
             default:
                 break;
         }
-    }
-
-    /**
-     * 登录
-     */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void login() {
-        showLoading("");
-        LoginParameter loginParameter = new LoginParameter();
-        loginParameter.setUserId(Long.parseLong(edtAccount.getText().toString()));
-        loginParameter.setPassWord(edtPwd.getText().toString());
-        Api.getApiService().login(loginParameter)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new NoBaseResultObserver<LoginResultData>(getActivity()) {
-                    @Override
-                    public void onResponse(LoginResultData loginResultData) {
-                        if (loginResultData != null) {
-                            if (loginResultData.getResult() == 0 && loginResultData.getCode() == HttpResposeDataBase.SUCESSED) {
-                                if (cbRememberPwd.isChecked()) {
-                                    spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_PWD, userPwd);
-                                    spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, "ischecked", cbRememberPwd.isChecked());
-                                } else {
-                                    spUtil.removePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_PWD);
-                                    spUtil.removePreference(SHARE_LOGIN_NAME_AND_PAW, "ischecked");
-                                }
-                                spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_NAME, userName);
-                                // 判断登录名是否存在于loginDataList 集合中
-                                if (!loginDataList.contains(userName)) {
-                                    loginDataList.add(userName);
-                                }
-
-                                if (loginDataList.size() > 5) {
-                                    loginDataList.remove(0);
-                                }
-                                saveLoginDataList();
-                                UserUtil.putUser(getActivity(), loginResultData);
-                                ToastUtil.showToast(R.string.login_success);
-                                startActivity(new Intent(ActivityLogin.this, MainActivity.class));
-                                finish();
-                            } else {
-                                ToastUtil.showToast(loginResultData.getResultMessage() + "");
-                            }
-                        } else {
-                            ToastUtil.showToast(R.string.login_fail);
-                        }
-                        dismissLoading();
-                    }
-                });
     }
 
     /**
@@ -288,5 +235,67 @@ public class ActivityLogin extends BaseActivity {
         Gson gson = new Gson();
         String strJson = gson.toJson(loginDataList);
         spEditor.putString("key", strJson).commit();
+    }
+
+    @Override
+    public String changeToken(String userid, String oldToken) {
+        return null;
+    }
+
+    /**
+     * 登录
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public LoginResultData login(long userid, String password, DeviceType type) {
+        showLoading("");
+        LoginParameter loginParameter = new LoginParameter();
+        loginParameter.setUserId(userid);
+//        loginParameter.setPassWord(MD5Helper.Encrypt5(password));
+        loginParameter.setPassWord(password);
+        Api.getApiService().login(loginParameter)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NoBaseResultObserver<LoginResultData>(getActivity()) {
+                    @Override
+                    public void onResponse(LoginResultData loginResultData) {
+                        if (loginResultData != null) {
+                            if (loginResultData.getResult() == 0 && loginResultData.getCode() == HttpResposeDataBase.SUCESSED) {
+                                if (cbRememberPwd.isChecked()) {
+                                    spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_PWD, userPwd);
+                                    spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, "ischecked", cbRememberPwd.isChecked());
+                                } else {
+                                    spUtil.removePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_PWD);
+                                    spUtil.removePreference(SHARE_LOGIN_NAME_AND_PAW, "ischecked");
+                                }
+                                spUtil.savePreference(SHARE_LOGIN_NAME_AND_PAW, SHARE_LOGIN_NAME, userName);
+                                // 判断登录名是否存在于loginDataList 集合中
+                                if (!loginDataList.contains(userName)) {
+                                    loginDataList.add(userName);
+                                }
+
+                                if (loginDataList.size() > 5) {
+                                    loginDataList.remove(0);
+                                }
+                                saveLoginDataList();
+                                UserUtil.putUser(getActivity(), loginResultData);
+                                ToastUtil.showToast(R.string.login_success);
+                                startActivity(new Intent(ActivityLogin.this, MainActivity.class));
+                                finish();
+                            } else {
+                                ToastUtil.showToast(loginResultData.getResultMessage() + "");
+                            }
+                        } else {
+                            ToastUtil.showToast(R.string.login_fail);
+                        }
+                        dismissLoading();
+                    }
+                });
+        return null;
+    }
+
+    @Override
+    public RegistResultData register(long userid, String password, String nickName) {
+        return null;
     }
 }

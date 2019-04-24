@@ -13,9 +13,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import usung.com.mqttclient.Interface.ILoginVisitor;
 import usung.com.mqttclient.R;
 import usung.com.mqttclient.base.BaseActivity;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
+import usung.com.mqttclient.bean.user.DeviceType;
+import usung.com.mqttclient.bean.user.LoginResultData;
 import usung.com.mqttclient.bean.user.RegistResultData;
 import usung.com.mqttclient.bean.user.RegisteParameter;
 import usung.com.mqttclient.http.base.Api;
@@ -27,7 +30,7 @@ import usung.com.mqttclient.utils.ToastUtil;
  *  注册界面
  * @author herui
  */
-public class ActivityRegister extends BaseActivity {
+public class ActivityRegister extends BaseActivity implements ILoginVisitor {
     @BindView(R.id.header_title)
     TextView headerTitle;
     @BindView(R.id.edt_user_name)
@@ -97,23 +100,38 @@ public class ActivityRegister extends BaseActivity {
                     return;
                 }
 
-                register();
+                register(Long.parseLong(userName), passWord, nickName);
                 break;
             default:
                 break;
         }
     }
 
+    @Override
+    public String changeToken(String userid, String oldToken) {
+        return null;
+    }
+
+    @Override
+    public LoginResultData login(long userid, String password, DeviceType type) {
+        return null;
+    }
+
     /**
-     * 注册
+     *  注册
+     * @param userid 用户id
+     * @param password 用户密码
+     * @param nickName 昵称
+     * @return
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void register() {
+    @Override
+    public RegistResultData register(long userid, String password, String nickName) {
         showLoading("");
         RegisteParameter registeParameter = new RegisteParameter();
-        registeParameter.setUserId(Long.parseLong(userName));
+        registeParameter.setUserId(userid);
         registeParameter.setNickName(nickName);
-        registeParameter.setFirstPassWords(passWord);
+        registeParameter.setFirstPassWords(password);
         Api.getApiService().registe(registeParameter)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -134,5 +152,6 @@ public class ActivityRegister extends BaseActivity {
                         dismissLoading();
                     }
                 });
+        return null;
     }
 }

@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.usung.mqttclient.MqttHelper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +27,7 @@ import q.rorbin.badgeview.QBadgeView;
 import usung.com.mqttclient.adapter.PagerAdapter;
 import usung.com.mqttclient.base.APPConstants;
 import usung.com.mqttclient.base.BaseActivity;
-import usung.com.mqttclient.base.MqttHelper;
+import usung.com.mqttclient.base.BaseApplication;
 import usung.com.mqttclient.bean.HrMqttMessage;
 import usung.com.mqttclient.bean.HttpRequestParameterBase;
 import usung.com.mqttclient.bean.HttpResposeDataBase;
@@ -139,7 +142,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             mqttHelper = MqttHelper.getInstance(getActivity());
                             mqttHelper.setClientId(loginResultData.getMqttCredencial().getClientId());
                             mqttHelper.setSubscriptionTopic(initiaDataResult.getData().getSelfTopic());
-                            mqttHelper.initMqtt();
+                            try {
+                                mqttHelper.initMqtt(BaseApplication.getInstance().getResources().getAssets().open("cacert.crt"));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             // 好友的主题集合
                             keyValues = initiaDataResult.getData().getAllTopic();
                             sendOnlineMqttMessage(initiaDataResult);
